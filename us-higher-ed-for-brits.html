@@ -21,6 +21,34 @@
     --radius: 14px;
     --shadow: 0 6px 24px rgba(0,0,0,0.35);
   }
+  /* Light theme: tuned for WCAG AA contrast (body text and accents >= 4.5:1 on their backgrounds) */
+  :root[data-theme="light"] {
+    --bg: #f4f6fb;
+    --panel: #ffffff;
+    --panel-2: #eef1f8;
+    --ink: #1b2138;
+    --muted: #515a70;
+    --line: #d2d8e6;
+    --accent: #2f49c9;
+    --accent-soft: #e7ebfb;
+    --warn: #9a5800;
+    --warn-soft: #fdf2e2;
+    --good: #0f7a4d;
+    --chip: #eaeef7;
+    --shadow: 0 6px 20px rgba(20,30,60,0.08);
+  }
+  /* fix elements that use hard-coded colors so they stay legible in light mode */
+  :root[data-theme="light"] .qbtn.primary { color: #ffffff; }
+  :root[data-theme="light"] .qopt.wrong { color: #c01f1f; border-color: #c01f1f; background: rgba(192,31,31,.08); }
+  :root[data-theme="light"] .trow .x { color: #c01f1f; }
+
+  .theme-toggle {
+    position: absolute; top: 0; right: 0;
+    background: var(--panel); border: 1px solid var(--line); color: var(--ink);
+    padding: 7px 13px; border-radius: 999px; cursor: pointer; font-size: 13px; font-weight: 600;
+  }
+  .theme-toggle:hover { border-color: var(--accent); }
+
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
@@ -179,7 +207,8 @@
 </head>
 <body>
 <div class="wrap">
-  <header class="top">
+  <header class="top" style="position:relative;">
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle light and dark mode">☀️ Light mode</button>
     <div class="eyebrow">A plain-English guide</div>
     <h1>US Higher Ed, explained for Brits</h1>
     <p class="sub">A friendly guide to the US college and university system for anyone coming from the UK (or just curious). Search any term, flip on "false friends" to see the words that mean something different in the UK, and use the journey and structure tabs to get the whole mental model, not just the vocabulary.</p>
@@ -500,6 +529,24 @@
 </div>
 
 <script>
+// ---- Light / dark theme toggle ----
+(function () {
+  const root = document.documentElement;
+  const btn = document.getElementById('themeToggle');
+  function apply(theme) {
+    if (theme === 'light') { root.setAttribute('data-theme', 'light'); btn.textContent = '🌙 Dark mode'; }
+    else { root.removeAttribute('data-theme'); btn.textContent = '☀️ Light mode'; }
+  }
+  let saved = null;
+  try { saved = localStorage.getItem('usheb-theme'); } catch (e) {}
+  apply(saved === 'light' ? 'light' : 'dark');
+  btn.onclick = () => {
+    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    apply(next);
+    try { localStorage.setItem('usheb-theme', next); } catch (e) {}
+  };
+})();
+
 const DATA = [
   // ---- FALSE FRIENDS (words that exist in UK English but mean something different) ----
   { term: "College", cat: "False friends", ff: true,
