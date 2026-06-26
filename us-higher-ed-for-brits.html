@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>US Higher Ed for Brits | Genio internal reference</title>
+<style>
+  :root {
+    --bg: #0f1220;
+    --panel: #181c2e;
+    --panel-2: #1f2438;
+    --ink: #eef1f8;
+    --muted: #9aa3c0;
+    --line: #2a3050;
+    --accent: #6c8cff;
+    --accent-soft: #1e2746;
+    --warn: #ffb454;
+    --warn-soft: #2a2113;
+    --good: #5fd0a0;
+    --chip: #232a45;
+    --radius: 14px;
+    --shadow: 0 6px 24px rgba(0,0,0,0.35);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 28px 20px 80px; }
+  header.top { margin-bottom: 18px; }
+  .eyebrow { color: var(--accent); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: 12px; }
+  h1 { font-size: 30px; margin: 6px 0 6px; }
+  .sub { color: var(--muted); max-width: 720px; font-size: 15px; }
+
+  .tabs { display: flex; gap: 8px; margin: 22px 0 18px; flex-wrap: wrap; }
+  .tab {
+    background: var(--panel); border: 1px solid var(--line); color: var(--muted);
+    padding: 9px 16px; border-radius: 999px; cursor: pointer; font-size: 14px; font-weight: 600;
+  }
+  .tab.active { background: var(--accent-soft); color: var(--ink); border-color: var(--accent); }
+
+  .controls { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+  .search {
+    flex: 1; min-width: 240px; display: flex; align-items: center; gap: 10px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px;
+  }
+  .search input { flex: 1; background: transparent; border: none; color: var(--ink); font-size: 16px; outline: none; }
+  .search svg { width: 18px; height: 18px; opacity: .6; }
+  .toggle {
+    display: flex; align-items: center; gap: 8px; background: var(--panel);
+    border: 1px solid var(--line); border-radius: 12px; padding: 11px 14px; cursor: pointer; font-size: 14px; user-select: none;
+  }
+  .toggle.on { border-color: var(--warn); color: var(--warn); background: var(--warn-soft); }
+
+  .cats { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+  .cat {
+    font-size: 13px; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+    background: var(--chip); border: 1px solid var(--line); color: var(--muted);
+  }
+  .cat.active { color: var(--ink); border-color: var(--accent); background: var(--accent-soft); }
+
+  .count { color: var(--muted); font-size: 13px; margin-bottom: 12px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 16px 18px; box-shadow: var(--shadow);
+  }
+  .card .term { font-size: 18px; font-weight: 700; margin: 0 0 2px; }
+  .card .also { color: var(--muted); font-size: 12.5px; margin-bottom: 8px; }
+  .card .tag {
+    display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+    color: var(--accent); background: var(--accent-soft); border-radius: 6px; padding: 2px 8px; margin-bottom: 10px;
+  }
+  .card .us { font-size: 14.5px; margin: 0 0 10px; }
+  .card .ff {
+    background: var(--warn-soft); border-left: 3px solid var(--warn); border-radius: 8px;
+    padding: 9px 12px; font-size: 13.5px; margin: 0 0 10px;
+  }
+  .card .ff b { color: var(--warn); }
+  .card .ex { font-size: 13px; color: var(--muted); font-style: italic; }
+  .card .ex b { color: var(--ink); font-style: normal; }
+
+  .panel-block {
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 22px 24px; box-shadow: var(--shadow); margin-bottom: 16px;
+  }
+  .panel-block h2 { margin: 0 0 4px; font-size: 21px; }
+  .panel-block h3 { margin: 18px 0 6px; font-size: 16px; color: var(--accent); }
+  .panel-block p { font-size: 14.5px; color: var(--ink); }
+  .panel-block .muted { color: var(--muted); }
+
+  .timeline { position: relative; margin: 8px 0 0; padding-left: 26px; }
+  .timeline::before { content: ""; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+  .step { position: relative; margin-bottom: 18px; }
+  .step::before { content: ""; position: absolute; left: -22px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+  .step .when { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); font-weight: 700; }
+  .step .what { font-size: 15px; font-weight: 600; margin: 1px 0 2px; }
+  .step .detail { font-size: 13.5px; color: var(--muted); }
+
+  .ladder { display: grid; gap: 10px; margin-top: 10px; }
+  .rung { background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .rung .lvl { font-weight: 700; font-size: 14.5px; }
+  .rung .lvl span { color: var(--muted); font-weight: 500; font-size: 13px; }
+  .rung .desc { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+  .nest { font-size: 14px; color: var(--muted); margin-top: 8px; }
+  .nest code { background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px; padding: 2px 7px; color: var(--ink); font-size: 13px; }
+
+  /* quiz */
+  .qbtn { font: inherit; font-weight: 700; font-size: 15px; padding: 11px 22px; border-radius: 10px; cursor: pointer; border: 1px solid var(--line); background: var(--panel-2); color: var(--ink); }
+  .qbtn.primary { background: var(--accent); border-color: var(--accent); color: #0b0e1a; }
+  .qbtn:hover { filter: brightness(1.08); }
+  .qmodes { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; margin-top: 12px; }
+  .qmode { text-align: left; font: inherit; font-size: 14px; font-weight: 600; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel-2); color: var(--ink); cursor: pointer; }
+  .qmode:hover { border-color: var(--accent); }
+  .qmode span { display: block; font-weight: 400; font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .qprogress { font-size: 13px; color: var(--accent); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
+  .qquestion { font-size: 19px; font-weight: 700; margin-bottom: 16px; }
+  .qoptions { display: grid; gap: 10px; }
+  .qopt { text-align: left; font: inherit; font-size: 15px; padding: 13px 16px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel-2); color: var(--ink); cursor: pointer; }
+  .qopt:hover { border-color: var(--accent); }
+  .qopt.correct { border-color: var(--good); background: rgba(95,208,160,.12); color: var(--good); }
+  .qopt.wrong { border-color: #ff6b6b; background: rgba(255,107,107,.12); color: #ff9b9b; }
+  .qopt.locked { cursor: default; opacity: .85; }
+  .qfeedback { margin-top: 16px; padding: 12px 14px; border-radius: 10px; background: var(--accent-soft); border-left: 3px solid var(--accent); font-size: 14px; }
+  .qshare { margin-top: 14px; padding: 14px 16px; border-radius: 10px; background: var(--panel-2); border: 1px dashed var(--line); font-family: ui-monospace, Menlo, monospace; font-size: 14px; white-space: pre-wrap; }
+  /* try it yourself */
+  .tilayout { display: grid; grid-template-columns: 1.35fr 1fr; gap: 20px; align-items: start; }
+  @media (max-width: 760px) { .tilayout { grid-template-columns: 1fr; } }
+  .tigroup { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); margin: 14px 0 6px; }
+  .ci { border: 1px solid var(--line); background: var(--panel-2); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; cursor: pointer; display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+  .ci:hover { border-color: var(--accent); }
+  .ci.added { border-color: var(--good); background: rgba(95,208,160,.12); }
+  .ci.locked { cursor: not-allowed; opacity: .55; }
+  .ci.locked:hover { border-color: var(--line); }
+  .ci .cmain { font-size: 14px; }
+  .ci .ccode { font-weight: 700; }
+  .ci .cmeta { font-size: 12px; color: var(--muted); margin-top: 1px; }
+  .ci .cadd { font-size: 12px; font-weight: 700; color: var(--accent); white-space: nowrap; }
+  .ci.added .cadd { color: var(--good); }
+  .ci.locked .cadd { color: var(--muted); }
+  .titray { border: 1px dashed var(--line); border-radius: 10px; padding: 10px; min-height: 60px; }
+  .trow { display: flex; justify-content: space-between; gap: 8px; font-size: 13.5px; padding: 5px 0; border-bottom: 1px solid var(--line); }
+  .trow:last-child { border-bottom: none; }
+  .trow .x { color: #ff9b9b; cursor: pointer; font-weight: 700; }
+  .titray .none { color: var(--muted); font-size: 13px; }
+  .tistat { margin-top: 12px; font-size: 14px; font-weight: 700; padding: 10px 12px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--line); }
+  .tistat .band { font-weight: 400; color: var(--muted); font-size: 13px; }
+  .tistat.good { border-color: var(--good); }
+  .tistat.warn { border-color: var(--warn); }
+  .tiprog { height: 16px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--line); overflow: hidden; display: flex; margin: 10px 0; }
+  .tiprog .seg-earned { background: var(--good); }
+  .tiprog .seg-fall { background: var(--accent); }
+  .tilegend { font-size: 12px; color: var(--muted); display: flex; gap: 16px; flex-wrap: wrap; }
+  .tilegend b { color: var(--ink); }
+  .dot { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 5px; vertical-align: baseline; }
+  .tcols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 10px; }
+  @media (max-width: 760px) { .tcols { grid-template-columns: 1fr; } }
+  .tireq { font-size: 13px; padding: 4px 0; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 8px; }
+  .tireq:last-child { border-bottom: none; }
+  .tireq .rc { color: var(--muted); white-space: nowrap; }
+  .tidone { color: var(--good); }
+  .titodo { color: var(--warn); }
+  .tinow { color: var(--accent); font-weight: 700; }
+  .tifeedback { margin-top: 14px; padding: 14px 16px; border-radius: 10px; background: var(--accent-soft); border-left: 3px solid var(--accent); font-size: 14px; }
+  .tifeedback ul { margin: 8px 0 0; padding-left: 18px; }
+  .tifeedback li { margin-bottom: 5px; }
+  .tverdict { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  .hide { display: none; }
+  .empty { color: var(--muted); padding: 30px; text-align: center; }
+  footer { margin-top: 36px; color: var(--muted); font-size: 12.5px; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Genio internal reference</div>
+    <h1>US Higher Ed, explained for Brits</h1>
+    <p class="sub">A working reference for product, exec, marketing, PMM and sales. Search any term, flip on "false friends" to see the words that mean something different in the UK, and use the journey and structure tabs to get the whole mental model, not just the vocabulary.</p>
+  </header>
+
+  <div class="tabs">
+    <div class="tab active" data-view="glossary">Glossary &amp; translator</div>
+    <div class="tab" data-view="journey">Student journey</div>
+    <div class="tab" data-view="structure">How it's structured</div>
+    <div class="tab" data-view="paying">💵 Paying for it</div>
+    <div class="tab" data-view="tryit">🎓 Try it yourself</div>
+    <div class="tab" data-view="quiz">🍺 Pub quiz</div>
+  </div>
+
+  <!-- GLOSSARY VIEW -->
+  <section id="view-glossary">
+    <div class="controls">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input id="q" type="text" placeholder="Search a term, e.g. course, sophomore, credit, FAFSA..." autocomplete="off">
+      </div>
+      <div class="toggle" id="ffToggle">⚠️ False friends only</div>
+    </div>
+    <div class="cats" id="cats"></div>
+    <div class="count" id="count"></div>
+    <div class="grid" id="grid"></div>
+    <div class="empty hide" id="empty">No matches. Try a shorter or different term.</div>
+  </section>
+
+  <!-- JOURNEY VIEW -->
+  <section id="view-journey" class="hide">
+    <div class="panel-block">
+      <h2>The student journey, application to graduation</h2>
+      <p class="muted">Where the key decisions happen. Most confusion for UK colleagues comes from <i>when</i> things occur, declaring a major is not at application, and registration repeats every single term.</p>
+      <div class="timeline" id="timeline"></div>
+    </div>
+
+    <div class="panel-block">
+      <h2>How students actually choose where to apply</h2>
+      <p class="muted"><b>Myth:</b> every US student fires off applications to a dozen universities. <b>Reality:</b> plenty apply to only a few, or even one. The selective, apply-everywhere scramble is mostly a top-end story.</p>
+      <p class="muted">A very common, practical approach is:</p>
+      <div class="ladder">
+        <div class="rung"><div class="lvl">1. Does it offer my degree?</div><div class="desc">Students look for schools that actually run the major or program they want.</div></div>
+        <div class="rung"><div class="lvl">2. What will it cost?</div><div class="desc">Tuition, in-state vs out-of-state pricing, and the financial aid on offer weigh heavily. Cost often decides it.</div></div>
+        <div class="rung"><div class="lvl">3. Can I get in, and is it close?</div><div class="desc">Many choose a nearby state school with accessible entry requirements, sometimes living at home to save money.</div></div>
+      </div>
+      <h3>The basic entry requirement</h3>
+      <p class="muted">To enroll at a college or university you normally need a <b>high school diploma</b> or a <b>GED</b> (the equivalent for those who didn't finish high school). Beyond that, requirements range from <b>open admission</b> (a pulse and a diploma will do, common at community colleges and many state schools) up to the highly selective privates that reject most applicants and may require SAT or ACT scores.</p>
+    </div>
+  </section>
+
+  <!-- STRUCTURE VIEW -->
+  <section id="view-structure" class="hide">
+    <div class="panel-block">
+      <h2>How a US university is structured</h2>
+      <p class="muted">One institution nests like this. The word "school" appears at two levels, which is a common trip-up.</p>
+      <div class="nest">
+        <code>University</code> &rsaquo; <code>College / School</code> (e.g. School of Engineering) &rsaquo; <code>Department</code> (e.g. Mechanical Engineering) &rsaquo; <code>Major</code> &rsaquo; <code>Course</code> &rsaquo; <code>Section</code>
+      </div>
+      <h3>The degree ladder</h3>
+      <div class="ladder" id="ladder"></div>
+    </div>
+    <div class="panel-block">
+      <h2>How choosing classes actually works</h2>
+      <p class="muted">Every term, a student opens the <b>course catalog</b> and builds their own timetable. They don't just get assigned classes. They pick the courses they need, and often the specific <b>section</b>, which means choosing the professor and the time slot that fits around their other classes, a job, or commuting.</p>
+      <p class="muted">Each course is offered in one or more formats:</p>
+      <div class="ladder">
+        <div class="rung"><div class="lvl">In person <span>on campus</span></div><div class="desc">Traditional classroom or lab sessions at a set time and place.</div></div>
+        <div class="rung"><div class="lvl">Online <span>remote</span></div><div class="desc">Delivered over the internet. Can be synchronous (live at a set time) or asynchronous (self-paced, watch recordings on your own schedule).</div></div>
+        <div class="rung"><div class="lvl">Hybrid <span>a mix</span></div><div class="desc">Part in person, part online, e.g. a weekly in-person seminar plus online lectures.</div></div>
+      </div>
+      <p class="muted" style="margin-top:12px;"><b>Common misconception:</b> people assume a student is either "an online student" or "an in-person student". Most are neither. A single student routinely mixes all three formats in one term, choosing each course's format to fit their schedule.</p>
+    </div>
+    <div class="panel-block">
+      <h2>See a real course catalog</h2>
+      <p class="muted">The best way to understand registration is to browse an actual catalog. These are public, no login needed. Search a subject, then look at the individual courses, their numbers, credits, times, formats and sections.</p>
+      <div class="ladder">
+        <div class="rung"><div class="lvl"><a href="https://www.smc.edu/academics/classes/" target="_blank" rel="noopener">Santa Monica College</a> <span>community college</span></div><div class="desc">A large California community college. Note the mix of on-ground, online, hybrid and HyFlex sections, and the lower-cost, open-access feel.</div></div>
+        <div class="rung"><div class="lvl"><a href="https://courses.osu.edu/" target="_blank" rel="noopener">Ohio State University</a> <span>state school</span></div><div class="desc">A big public university catalog. Browse the huge range of subjects and the 100 to 400-level course numbering in action.</div></div>
+        <div class="rung"><div class="lvl"><a href="https://classes.cornell.edu/" target="_blank" rel="noopener">Cornell University</a> <span>Ivy League</span></div><div class="desc">Cornell's public Class Roster. See how an elite private presents courses, sections, instructors and meeting times.</div></div>
+      </div>
+      <p class="muted" style="margin-top:12px;">Tip: pick one subject (say "Biology") at each and compare. You'll see the same building blocks, courses with numbers, credits, prerequisites and sections, across very different institutions.</p>
+    </div>
+    <div class="panel-block">
+      <h2>What order classes are taken in</h2>
+      <p class="muted">Courses are <b>numbered by level</b>, which tells you the difficulty and roughly when you take them. The first number is the giveaway:</p>
+      <div class="ladder">
+        <div class="rung"><div class="lvl">100-level <span>e.g. Biology 101</span></div><div class="desc">Introductory, no prior knowledge assumed. Mostly taken by freshmen. "101" means the entry-level first course in a subject.</div></div>
+        <div class="rung"><div class="lvl">200-level <span>e.g. Biology 201</span></div><div class="desc">Builds on the basics. Typically sophomore year, often with a 100-level prerequisite.</div></div>
+        <div class="rung"><div class="lvl">300 and 400-level</div><div class="desc">Advanced, specialised courses for juniors and seniors, usually with several prerequisites behind them.</div></div>
+      </div>
+      <p class="muted" style="margin-top:12px;"><b>Prerequisites</b> enforce this order: you must pass the earlier course before you can register for the next. That's why a student can't just jump into an advanced class, they have to climb the ladder. (Numbering schemes vary, some schools use 1000 and 2000 instead of 100 and 200.)</p>
+    </div>
+    <div class="panel-block">
+      <h2>The academic year, and the summer term</h2>
+      <p class="muted">The common rhythm is two main semesters, <b>fall</b> (Aug to Dec) and <b>spring</b> (Jan to May), plus an optional <b>summer session</b>.</p>
+      <div class="ladder">
+        <div class="rung"><div class="lvl">Fall &amp; spring <span>~15 weeks each</span></div><div class="desc">The standard full-length terms most students follow.</div></div>
+        <div class="rung"><div class="lvl">Summer session <span>shorter and intensive</span></div><div class="desc">Compressed into fewer weeks, so the same material is covered faster. Optional, and not everyone takes it.</div></div>
+      </div>
+      <p class="muted" style="margin-top:12px;">Students use summer to <b>graduate faster</b> by going "straight through" the year, to catch up, or to <b>retake</b> a course they failed or want a better grade in. (Schools on the quarter system run fall, winter and spring quarters plus an optional summer instead.)</p>
+    </div>
+    <div class="panel-block">
+      <h2>What "general education" actually covers</h2>
+      <p class="muted">Gen eds are the breadth requirements every undergraduate must complete outside their major, usually in the first two years. There is no UK equivalent. Each university sets its own list, but the categories are fairly standard. Typical buckets:</p>
+      <div class="ladder" id="geneds"></div>
+      <p class="muted" style="margin-top:12px;">A student picks specific courses to "satisfy" each bucket, so two biology majors can fulfil the same humanities requirement with totally different classes. This is the heart of the US liberal arts model: depth in your major, breadth across everything else.</p>
+    </div>
+    <div class="panel-block">
+      <h2>Two kinds of institution Brits often merge</h2>
+      <div class="ladder">
+        <div class="rung"><div class="lvl">4-year college / university <span>bachelor's degree</span></div><div class="desc">The "default" route. Public (state-funded, e.g. UCLA) or private (e.g. Stanford). "College" and "university" are used interchangeably by students.</div></div>
+        <div class="rung"><div class="lvl">Community college <span>2-year, associate degree</span></div><div class="desc">Local, low-cost, open access. Many students do two years here then "transfer" into a 4-year school to finish a bachelor's. No UK sixth-form equivalent, it is post-18 higher ed.</div></div>
+      </div>
+      <h3>The common money-saving pathway</h3>
+      <p class="muted">A huge number of US students deliberately start at a community college to save money. Tuition there is far cheaper per credit, so they take their general-education courses (the broad first-two-year requirements) at the community college, then <b>transfer</b> into a 4-year university to complete their major. The bachelor's degree is awarded by the university, and the diploma looks the same. This route doesn't exist in the UK and surprises many British colleagues.</p>
+    </div>
+    <div class="panel-block">
+      <h2>Getting a head start in high school</h2>
+      <p class="muted">US students can begin earning college credit before they even leave high school, two routes worth knowing:</p>
+      <div class="ladder">
+        <div class="rung"><div class="lvl">Dual enrollment</div><div class="desc">A high-schooler takes real college courses for genuine college credit while still in high school, sometimes at a nearby community college.</div></div>
+        <div class="rung"><div class="lvl">AP (Advanced Placement)</div><div class="desc">College-level courses and exams taken in high school. A strong exam score can earn college credit or let a student skip introductory courses.</div></div>
+      </div>
+      <p class="muted" style="margin-top:12px;">Both mean a student can arrive at university already part-way through their requirements, sometimes a full semester ahead.</p>
+    </div>
+    <div class="panel-block">
+      <h2>Getting in: admissions at a glance</h2>
+      <p class="muted">The baseline to enroll anywhere is a <b>high school diploma</b> or a <b>GED</b> (the equivalent for those who didn't finish high school). Above that baseline, selectivity is a wide spectrum, not one bar:</p>
+      <div class="ladder">
+        <div class="rung"><div class="lvl">Open admission <span>community colleges, many state schools</span></div><div class="desc">Almost anyone with a diploma or GED is accepted. Getting in is easy; the challenge is finishing.</div></div>
+        <div class="rung"><div class="lvl">Selective <span>most universities</span></div><div class="desc">Weigh GPA, essays, activities and often SAT or ACT scores. A genuine application, but most qualified applicants have options.</div></div>
+        <div class="rung"><div class="lvl">Highly selective <span>elite privates, top flagships</span></div><div class="desc">Reject most applicants. Many reinstated required SAT/ACT scores for 2025-2026.</div></div>
+      </div>
+      <h3>The two main tests</h3>
+      <p class="muted">The <b>SAT</b> (digital, scored to 1600, no separate science section) and the <b>ACT</b> (scored 1 to 36, with a science section that became optional in 2025) are interchangeable, colleges accept either. Students take whichever suits them. There is no UK equivalent; UK admissions lean on A-level grades instead.</p>
+      <h3>How many schools students apply to</h3>
+      <p class="muted">Despite the stereotype, not everyone applies to a dozen places. Many apply to just a few, or one, picked on a practical basis: which schools offer their degree, what it will cost, and whether a nearby state school will take them. The apply-everywhere race is mostly a top-end phenomenon.</p>
+    </div>
+  </section>
+
+  <!-- PAYING VIEW -->
+  <section id="view-paying" class="hide">
+    <div class="panel-block">
+      <h2>How tuition is actually billed</h2>
+      <p class="muted">Tuition (the price of instruction) is usually tied to <b>credit hours</b>, the unit that measures course workload. A typical course is 3 credits, and a bachelor's needs about 120 credits to graduate. How those credits are priced depends on the student's load:</p>
+      <div class="ladder">
+        <div class="rung"><div class="lvl">Part-time <span>below the full-time line, often under 12 credits</span></div><div class="desc">Charged <b>per credit hour</b>. Take fewer courses, pay less. Each extra course adds cost.</div></div>
+        <div class="rung"><div class="lvl">Full-time band <span>at many schools, roughly 12 to 18 credits</span></div><div class="desc">Charged a single <b>flat rate</b>. This is the surprising part: within this band, adding another course costs nothing extra. A student taking 15 credits and one taking 18 often pay the same tuition.</div></div>
+        <div class="rung"><div class="lvl">Overload <span>above the cap, e.g. more than 18 credits</span></div><div class="desc">Extra courses beyond the band usually trigger an <b>overload fee</b> per additional credit, and may need approval.</div></div>
+      </div>
+      <p class="muted" style="margin-top:12px;"><b>Why it matters:</b> a motivated full-time student can load up on courses inside the flat-rate band to graduate faster or explore more subjects at no extra tuition. The exact thresholds vary by institution, so treat 12 and 18 as typical, not universal.</p>
+    </div>
+
+    <div class="panel-block">
+      <h2>A perk of the flat-rate band: fun electives</h2>
+      <p class="muted">Because a full-time student inside the flat-rate band pays the same tuition whether they take, say, 12 or 16 credits, adding an extra <b>elective</b> often costs little more than that course's <b>student fees</b>. The tuition is already covered.</p>
+      <p class="muted">So students use electives to try things cheaply that would be expensive outside school: <b>scuba diving, tennis, ice hockey, social dance, photography, cooking</b> and the like. They also break up a heavy load of hard major courses with something enjoyable. It's one of the genuinely nice quirks of the US system, and a useful thing to understand about how students actually fill their schedules.</p>
+    </div>
+    <div class="panel-block">
+      <h2>The full cost is more than tuition</h2>
+      <div class="ladder">
+        <div class="rung"><div class="lvl">Tuition</div><div class="desc">The price of instruction. Varies hugely: private schools cost more, and public schools charge in-state residents far less than out-of-state students.</div></div>
+        <div class="rung"><div class="lvl">Student fees</div><div class="desc">Mandatory charges on top of tuition for things like technology, the health centre, student activities, athletics and facilities. Often billed per term regardless of credit load.</div></div>
+        <div class="rung"><div class="lvl">Room and board</div><div class="desc">Housing ("room") and a meal plan ("board") for students living on campus, billed separately from tuition.</div></div>
+        <div class="rung"><div class="lvl">Other costs</div><div class="desc">Books, supplies, transport and personal expenses. Schools publish a total "cost of attendance" that bundles all of this.</div></div>
+      </div>
+    </div>
+
+    <div class="panel-block">
+      <h2>How students bring the price down: financial aid</h2>
+      <p class="muted">The "sticker price" is rarely what a student actually pays. <b>Financial aid</b> is the package that reduces it, and it's central to how Americans choose a school. It starts with the <b>FAFSA</b> (Free Application for Federal Student Aid), the form that determines eligibility for federal support. Aid comes in four main types:</p>
+      <div class="ladder">
+        <div class="rung"><div class="lvl">Scholarships <span>do not repay</span></div><div class="desc">Usually <b>merit-based</b>, awarded for achievement (academic, athletic, artistic). Come from the school, private organisations or companies.</div></div>
+        <div class="rung"><div class="lvl">Grants <span>do not repay</span></div><div class="desc">Usually <b>need-based</b>, awarded according to financial need and income. Federal (e.g. Pell Grant), state or institutional.</div></div>
+        <div class="rung"><div class="lvl">Student loans <span>repaid later</span></div><div class="desc">Borrowed money. Federal loans have set terms; private loans behave more like ordinary debt. Unlike the UK's salary-linked system, US loans are repaid as conventional debt.</div></div>
+        <div class="rung"><div class="lvl">Work-study <span>earned</span></div><div class="desc">A federal program giving students with financial need part-time campus jobs to help cover costs.</div></div>
+      </div>
+      <p class="muted" style="margin-top:12px;"><b>Quick distinction to remember:</b> scholarships and grants are free money you keep (merit vs need), loans are borrowed and repaid, and work-study is earned through a job. A student's "aid package" is usually a blend of all four.</p>
+    </div>
+  </section>
+
+  <!-- TRY IT YOURSELF VIEW -->
+  <section id="view-tryit" class="hide">
+    <div class="panel-block">
+      <h2>Try it yourself: register for Fall semester</h2>
+      <p class="muted">You're working toward a <b>B.S. in Biology</b>. Build a Fall schedule the way a US student would: pick courses to land in the full-time band (12 to 18 credits, aim for about 15), cover the right mix, and avoid time clashes. Choose your year to begin.</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
+        <button class="qbtn primary" id="tiFreshman">Register as a Freshman</button>
+        <button class="qbtn primary" id="tiJunior">Register as a Junior</button>
+      </div>
+      <p class="muted" id="tiGoal" style="margin-top:14px;"></p>
+    </div>
+
+    <div class="panel-block hide" id="tiBoard">
+      <div id="tiAudit" class="hide" style="margin-bottom:20px;"></div>
+      <div class="tilayout">
+        <div>
+          <h3 id="tiCatTitle">Fall course catalog</h3>
+          <p class="muted" style="margin-top:0;">Click a course to add or remove it. Locked courses show why.</p>
+          <div id="tiCatalog"></div>
+        </div>
+        <div>
+          <h3>Your Fall schedule</h3>
+          <div class="titray" id="tiTray"></div>
+          <div class="tistat" id="tiStat"></div>
+          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="qbtn primary" id="tiCheck">Check my schedule</button>
+            <button class="qbtn" id="tiReset">Clear</button>
+          </div>
+          <div class="tifeedback hide" id="tiFeedback"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ VIEW -->
+  <section id="view-quiz" class="hide">
+    <div class="panel-block" id="quizIntro">
+      <h2>🍺 The American School Pub Quiz</h2>
+      <p class="muted">Test how well you really know the US system. No prep, no shame, just find out where the gaps are. Share your score in the team channel and make the Americans proud (or appalled).</p>
+      <h3 style="margin-top:18px;">Full mixed quiz</h3>
+      <p class="muted">Questions spread evenly across every topic. Pick a length:</p>
+      <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="qbtn primary" id="startQuiz10">▶ 10 questions</button>
+        <button class="qbtn primary" id="startQuiz20">▶ 20 questions</button>
+        <button class="qbtn primary" id="startQuiz40">▶ 40 questions</button>
+      </div>
+      <h3 style="margin-top:22px;">Or drill a single topic</h3>
+      <div class="qmodes" id="quizModes"></div>
+    </div>
+
+    <div class="panel-block hide" id="quizPlay">
+      <div class="qprogress" id="qprogress"></div>
+      <div class="qquestion" id="qquestion"></div>
+      <div class="qoptions" id="qoptions"></div>
+      <div class="qfeedback hide" id="qfeedback"></div>
+      <div style="margin-top:16px;">
+        <button class="qbtn primary hide" id="qnext">Next question</button>
+      </div>
+    </div>
+
+    <div class="panel-block hide" id="quizResult">
+      <h2 id="qscoreTitle"></h2>
+      <p class="muted" id="qscoreMsg"></p>
+      <div class="qshare" id="qshare"></div>
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="qbtn" id="qcopy">Copy my score to share</button>
+        <button class="qbtn" id="qretry">Try again</button>
+        <button class="qbtn" id="qmenu">Choose another quiz</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Built as an internal Genio reference. Suggest additions or corrections to the US team. Definitions reflect typical US practice; individual institutions vary.
+  </footer>
+</div>
+
+<script>
+const DATA = [
+  // ---- FALSE FRIENDS (words that exist in UK English but mean something different) ----
+  { term: "College", cat: "False friends", ff: true,
+    us: "Used interchangeably with 'university' to mean the place you do an undergraduate degree after high school. \"I'm in college\" = \"I'm at university.\" Also a named division within a university (College of Arts and Sciences).",
+    uk: "In the UK 'college' usually means sixth-form or further education (ages 16 to 18), or a constituent body of Oxbridge. A US student saying they're 'in college' is at university, not doing A-levels.",
+    ex: "\"Where did you go to college?\" means \"Which university did you attend?\"" },
+
+  { term: "School", cat: "False friends", ff: true,
+    us: "Casually means university too. Also a major academic division (School of Law, School of Engineering). And 'class of' uses it loosely.",
+    uk: "In the UK 'school' stops at 18. Americans of any age say \"where do you go to school?\" about university and \"I'm still in school\" while doing a PhD.",
+    ex: "\"I'm going back to school\" from a 30-year-old usually means starting a graduate degree." },
+
+  { term: "Course", cat: "False friends", ff: true,
+    us: "A single subject taken for one term, e.g. \"Intro to Psychology.\" A student takes four or five courses per semester. It is one building block, not the whole degree.",
+    uk: "In the UK 'course' means the entire degree programme (\"I'm doing a History course\" = the whole 3-year degree). This is the single biggest source of confusion.",
+    ex: "\"I'm taking five courses this semester\" = five separate subjects at once." },
+
+  { term: "Class", cat: "False friends", ff: true,
+    us: "Three meanings: (1) a single teaching session (\"I have class at 9\"), (2) a course (\"I'm taking a chemistry class\"), and (3) a cohort by graduation year (\"the class of 2027\").",
+    uk: "UK 'class' rarely means a year cohort or a whole course. The cohort meaning especially catches Brits out.",
+    ex: "\"She's class of 2025\" means she graduates in 2025, not a ranking." },
+
+  { term: "Public school", cat: "False friends", ff: true,
+    us: "A government-funded, free-to-attend school (the opposite of private). 'Public university' = state-funded.",
+    uk: "In the UK a 'public school' is an elite fee-paying private school (Eton, Harrow). The meaning is essentially inverted, so be careful on calls.",
+    ex: "\"I went to public school\" from an American means a normal state school." },
+  { term: "Private school / private university", cat: "False friends", ff: true,
+    us: "At university level, 'private' just means not state-funded: paid for by tuition and endowments rather than a state government. It says nothing about prestige; private institutions range from Harvard and Stanford to small religious colleges. They charge the same price to everyone (no in-state discount).",
+    uk: "Brits hear 'private school' and think posh fee-paying secondary (and assume eliteness). In the US 'private' at college level is just a funding model, the counterpart to a public/state school, not a status label.",
+    ex: "\"It's a private university\" means privately funded, not necessarily elite." },
+
+  { term: "Faculty", cat: "False friends", ff: true,
+    us: "The teaching staff, the professors. \"She's faculty\" = she's an academic staff member.",
+    uk: "In the UK 'faculty' is an administrative grouping of departments (Faculty of Science). Americans use 'college' or 'school' for that grouping instead.",
+    ex: "\"A faculty position\" = a professor job." },
+
+  { term: "Professor", cat: "False friends", ff: true,
+    us: "Common, broad title for most academics who teach at university level, including relatively junior ones (Assistant Professor, Associate Professor, full Professor).",
+    uk: "In the UK 'Professor' is a senior, often singular departmental title. Don't assume a US 'professor' is the equivalent of a UK chair.",
+    ex: "Students call almost any instructor \"Professor Smith.\"" },
+
+  { term: "Grade", cat: "False friends", ff: true,
+    us: "Two meanings: (1) a mark on a piece of work or a course (an A, B, C), and (2) a year of school (\"third grade\" = age 8 to 9).",
+    uk: "UK uses 'year' for the school-year meaning and 'mark' for the assessment meaning.",
+    ex: "\"What grade did you get?\" = what mark. \"She's in fifth grade\" = her school year." },
+
+  { term: "Quarter", cat: "False friends", ff: true,
+    us: "An academic term roughly 10 weeks long, used by schools on the quarter system (fall, winter, spring, plus optional summer). Not all schools use it; many use semesters.",
+    uk: "No direct UK equivalent. Don't assume four equal terms; it's three teaching quarters plus summer.",
+    ex: "\"I'm taking it winter quarter\" = the second term of the year." },
+
+  // ---- STRUCTURE / TIMELINE TERMS ----
+  { term: "Freshman", cat: "Year levels", ff: false,
+    us: "A first-year undergraduate student. Order is Freshman, Sophomore, Junior, Senior.",
+    uk: "UK says 'first year' or 'fresher'. 'Freshman' is the formal level name, used all year, not just freshers' week.",
+    ex: "\"As a freshman she lived in the dorms.\"" },
+  { term: "Sophomore", cat: "Year levels", ff: false,
+    us: "A second-year undergraduate.", uk: "",
+    ex: "Most students declare a major by the end of sophomore year." },
+  { term: "Junior", cat: "Year levels", ff: false,
+    us: "A third-year undergraduate.", uk: "",
+    ex: "\"Junior year\" is often when students study abroad or do internships." },
+  { term: "Senior", cat: "Year levels", ff: false,
+    us: "A fourth-year (final-year) undergraduate.",
+    uk: "Note: 'senior' here means final-year student, not a senior staff member.",
+    ex: "\"Senior year\" ends with graduation / commencement." },
+  { term: "Undergraduate", cat: "Year levels", ff: false,
+    us: "A student working toward a first degree (bachelor's). Often shortened to 'undergrad'.", uk: "Same as UK.",
+    ex: "\"Undergrad\" admissions are separate from graduate admissions." },
+  { term: "Graduate student", cat: "Year levels", ff: false,
+    us: "A student doing a master's or doctoral degree after their bachelor's. Shortened to 'grad student'. 'Grad school' = the postgraduate stage.",
+    uk: "UK says 'postgraduate'. Americans rarely say 'postgrad'.",
+    ex: "\"She's in grad school for a PhD.\"" },
+
+  // ---- ACADEMICS ----
+  { term: "Major", cat: "Academics", ff: false,
+    us: "The main subject of a bachelor's degree, the field you specialise in. You 'declare' it, usually by end of second year.",
+    uk: "UK students pick their degree subject at application. US students often start undeclared and choose later, after sampling courses.",
+    ex: "\"She's a biology major.\" / \"He majored in economics.\"" },
+  { term: "Minor", cat: "Academics", ff: false,
+    us: "A secondary subject taken alongside the major, fewer courses required. Optional.",
+    uk: "No standard UK equivalent. Roughly a formal 'side subject'.",
+    ex: "\"Computer science major with a minor in Spanish.\"" },
+  { term: "Double major", cat: "Academics", ff: false,
+    us: "Completing the requirements of two majors within one bachelor's degree.", uk: "Closest UK idea is a joint honours degree.",
+    ex: "\"She double majored in math and music.\"" },
+  { term: "Declare (a major)", cat: "Academics", ff: false,
+    us: "The formal step of registering your chosen major with the university, typically end of sophomore year. Before that you are 'undeclared'.",
+    uk: "There is no UK equivalent because the subject is fixed at application. This is a genuinely different model.",
+    ex: "\"I haven't declared yet, I'm still exploring.\"" },
+  { term: "Undeclared", cat: "Academics", ff: false,
+    us: "An undergraduate who has not yet chosen a major. Completely normal in the first two years.", uk: "",
+    ex: "\"He's undeclared but leaning toward engineering.\"" },
+  { term: "Credit / credit hour", cat: "Academics", ff: false,
+    us: "The unit that measures course workload, roughly one credit per hour of class per week. A typical course is 3 credits; a bachelor's needs about 120 credits to graduate.",
+    uk: "UK uses CATS / credits too but the numbers differ. The key idea: US students accumulate credits across many small courses to reach a graduation total.",
+    ex: "\"I need 15 credits this semester to stay on track.\"" },
+  { term: "General education (gen eds)", cat: "Academics", ff: false,
+    us: "Required courses outside your major that every student must take for breadth, e.g. a science major still takes some humanities. Also called 'core curriculum' or 'distribution requirements'.",
+    uk: "No UK equivalent; UK degrees are specialised from day one. This breadth is central to the US 'liberal arts' model.",
+    ex: "\"I'm knocking out my gen eds before junior year.\"" },
+  { term: "Elective", cat: "Academics", ff: false,
+    us: "A course you choose freely, not required by your major or gen eds. Many are fun, hands-on subjects like scuba diving, tennis, ice hockey, social dance, photography or cooking. Students take them to break up harder courses and to try something new cheaply. Because of the flat-rate tuition band, a full-time student is often already paying for that credit, so an extra elective can cost little more than the course's student fees.",
+    uk: "Closest UK idea is an 'optional module', but the playful, try-anything range (and the no-extra-tuition angle) is distinctly American.",
+    ex: "\"I added scuba as an elective to break up my engineering load.\"" },
+  { term: "Prerequisite (prereq)", cat: "Academics", ff: false,
+    us: "A course you must complete before you're allowed to enroll in a more advanced one. Prereqs enforce the order subjects are taken in, so you build up a foundation before specialising.",
+    uk: "Similar to UK 'prerequisite module', but more pervasive: long prereq chains are normal across a US degree.",
+    ex: "\"Calculus I is a prereq for Calculus II.\"" },
+  { term: "Course numbering (101, 201, 301)", cat: "Academics", ff: false,
+    us: "Courses are numbered by level, which signals difficulty and order. 100-level (e.g. 'Psychology 101') are introductory, usually for freshmen; 200-level for sophomores; 300 and 400-level are advanced, for juniors and seniors. Higher numbers usually have prerequisites. So '101' means the entry-level first course.",
+    uk: "No UK equivalent. '101' has even entered general English to mean 'the basics of something'. Numbering schemes vary by school (some use 1000, 2000).",
+    ex: "\"Take Bio 101 before Bio 201.\" / \"That's marketing 101.\"" },
+  { term: "Liberal arts", cat: "Academics", ff: false,
+    us: "An educational philosophy emphasising broad study across subjects (humanities, sciences, social sciences) before and alongside specialisation. 'Liberal arts college' = a small undergraduate-focused school built around this.",
+    uk: "Often misread by Brits as 'arts degrees'. It means broad-based, not arts-only.",
+    ex: "\"A liberal arts education\" values breadth and critical thinking." },
+  { term: "Syllabus", cat: "Academics", ff: false,
+    us: "The document a professor hands out at the start of a course listing topics, readings, grading breakdown and deadlines. A contract for the course.",
+    uk: "UK uses 'module handbook' or 'course outline' similarly.",
+    ex: "\"Check the syllabus for the exam dates.\"" },
+  { term: "Major GPA vs cumulative GPA", cat: "Academics", ff: false,
+    us: "Cumulative GPA averages all courses; major GPA averages only courses in your major. Employers and grad schools may look at either.",
+    uk: "UK has no GPA; it uses degree classifications (First, 2:1, etc.).",
+    ex: "\"My cumulative is 3.6 but my major GPA is 3.9.\"" },
+
+  // ---- GRADING ----
+  { term: "GPA (Grade Point Average)", cat: "Grading", ff: false,
+    us: "A number, usually 0.0 to 4.0, averaging your grades across courses. 4.0 = straight A's. The headline measure of academic performance.",
+    uk: "UK uses classifications (First, 2:1, 2:2, Third). There is no clean conversion, so don't equate a GPA to a 2:1 on the fly.",
+    ex: "\"She graduated with a 3.8 GPA.\"" },
+  { term: "Transcript", cat: "Grading", ff: false,
+    us: "The official record of every course taken and grade earned. Requested for jobs, transfers and grad school applications.",
+    uk: "UK has transcripts too but they matter less; the final classification dominates.",
+    ex: "\"Send your official transcript to the admissions office.\"" },
+  { term: "Pass/fail", cat: "Grading", ff: false,
+    us: "An option to take a course graded only as pass or fail, so it doesn't affect your GPA. Used to explore subjects with less risk.",
+    uk: "Some UK modules are pass/fail but it's less of a student-chosen lever.",
+    ex: "\"I took it pass/fail so it wouldn't hurt my GPA.\"" },
+  { term: "Dean's List", cat: "Grading", ff: false,
+    us: "An honour for students with a high GPA in a term. A line on the CV/resume.", uk: "No standard UK equivalent.",
+    ex: "\"He made the Dean's List two semesters running.\"" },
+  { term: "Honors / Latin honors", cat: "Grading", ff: false,
+    us: "Distinctions at graduation based on GPA: cum laude, magna cum laude, summa cum laude (good, better, best). Also 'honors program' = an enriched track for strong students.",
+    uk: "Different from UK 'honours', which simply denotes a standard full bachelor's degree (BA Hons).",
+    ex: "\"She graduated magna cum laude.\"" },
+  { term: "Retaking a course (grade replacement)", cat: "Grading", ff: false,
+    us: "Students can often retake a course they failed or did poorly in. Many schools then use the newer (higher) grade in the GPA, or average the two, depending on the school's policy. Summer sessions are a common time to do this.",
+    uk: "UK resits are usually capped at a bare pass mark; US grade-replacement policies can let the full higher grade count, which surprises Brits.",
+    ex: "\"He retook chemistry over the summer to raise his GPA.\"" },
+  { term: "Incomplete", cat: "Grading", ff: false,
+    us: "A temporary grade when a student can't finish a course on time for a valid reason, to be completed later.", uk: "",
+    ex: "\"He took an incomplete after being ill during finals.\"" },
+
+  // ---- REGISTRATION ----
+  { term: "Registration", cat: "Registration", ff: false,
+    us: "The process of signing up for your courses, done every term. Students pick courses from the catalog, often in time slots based on seniority.",
+    uk: "UK module selection is usually lighter-touch and less of a competitive scramble. US registration repeats each semester and can be stressful.",
+    ex: "\"Registration opens Monday, I need those classes.\"" },
+  { term: "Course catalog", cat: "Registration", ff: false,
+    us: "The full listing of courses an institution offers, with descriptions, credits and prerequisites.", uk: "Similar to a UK 'module catalogue'.",
+    ex: "\"Browse the catalog before you register.\"" },
+  { term: "Section", cat: "Registration", ff: false,
+    us: "One specific offering of a course (a particular time, room and instructor). A popular course has multiple sections. Also a smaller discussion group attached to a big lecture.",
+    uk: "UK 'seminar group' is close to the discussion-group meaning.",
+    ex: "\"I'm in the 10am section of Bio 101.\"" },
+  { term: "Add/drop", cat: "Registration", ff: false,
+    us: "A window at the start of term when students can add or drop courses without penalty.", uk: "",
+    ex: "\"I dropped stats during add/drop and added econ.\"" },
+  { term: "Withdraw (W)", cat: "Registration", ff: false,
+    us: "Leaving a course after the add/drop window. It shows as a 'W' on the transcript but doesn't affect GPA.", uk: "",
+    ex: "\"I had to withdraw, so I have a W on my transcript.\"" },
+  { term: "Waitlist", cat: "Registration", ff: false,
+    us: "A queue for a full course; you get a spot if someone drops.", uk: "Same idea as UK waiting list.",
+    ex: "\"I'm third on the waitlist for that seminar.\"" },
+  { term: "Hold", cat: "Registration", ff: false,
+    us: "A block on your account (unpaid fees, missing forms, advising not done) that prevents you registering until cleared.", uk: "",
+    ex: "\"I can't register, there's a hold on my account.\"" },
+  { term: "Academic advisor", cat: "Registration", ff: false,
+    us: "A staff member or professor who helps a student plan courses and stay on track to graduate. Often must approve registration.",
+    uk: "Similar to a UK 'personal tutor' but more focused on course planning and requirements.",
+    ex: "\"My advisor signed off on my schedule.\"" },
+  { term: "Full-time vs part-time", cat: "Registration", ff: false,
+    us: "Status set by credit load per term (often 12+ credits = full-time). Affects financial aid, visas and housing.", uk: "",
+    ex: "\"You need 12 credits to count as full-time.\"" },
+  { term: "Schedule", cat: "Registration", ff: false,
+    us: "Your personal timetable of courses for the term.", uk: "UK says 'timetable'.",
+    ex: "\"My schedule has no Friday classes this semester.\"" },
+
+  // ---- ACADEMIC CALENDAR ----
+  { term: "Semester", cat: "Calendar", ff: false,
+    us: "A roughly 15-week term. The common system has fall (Aug to Dec) and spring (Jan to May) semesters, plus an optional summer.",
+    uk: "UK typically has three terms; the US two-semester rhythm shapes everything from registration to internships.",
+    ex: "\"Fall semester starts late August.\"" },
+  { term: "Summer session / summer semester", cat: "Calendar", ff: false,
+    us: "An optional extra term over the summer. It's usually shorter than fall or spring, so classes are compressed and intensive (the same material packed into fewer weeks). Students use it to graduate faster by going 'straight through' the year, to catch up, or to retake a course they failed or want a better grade in.",
+    uk: "UK summers are typically a long break; the US summer session as a way to speed up or repeat courses has no real equivalent.",
+    ex: "\"She took two summer classes to graduate a semester early.\"" },
+  { term: "Midterms", cat: "Calendar", ff: false,
+    us: "Exams or major assessments around the middle of a term. Plural because they happen across several courses.", uk: "",
+    ex: "\"I have three midterms next week.\"" },
+  { term: "Finals / finals week", cat: "Calendar", ff: false,
+    us: "End-of-term exams, concentrated in a single intense 'finals week'.", uk: "UK exams are often grouped at year-end rather than each term.",
+    ex: "\"I'm slammed, it's finals week.\"" },
+  { term: "Office hours", cat: "Calendar", ff: false,
+    us: "Set times when a professor or TA is available for students to drop in with questions.", uk: "Same concept exists in the UK.",
+    ex: "\"Come to my office hours if you're stuck.\"" },
+  { term: "Spring break", cat: "Calendar", ff: false,
+    us: "A one-week holiday in the middle of spring semester, culturally a big deal.", uk: "Roughly the UK Easter break in timing.",
+    ex: "\"We're going to Florida for spring break.\"" },
+
+  // ---- PEOPLE / TEACHING ----
+  { term: "TA (Teaching Assistant)", cat: "People", ff: false,
+    us: "Usually a graduate student who helps run a course, leads discussion sections, grades work and holds office hours.", uk: "Similar to UK 'graduate teaching assistant'.",
+    ex: "\"Email the TA about the homework.\"" },
+  { term: "RA (Resident Assistant)", cat: "People", ff: false,
+    us: "A student employed to supervise and support residents in a dorm. Note: 'RA' can also mean Research Assistant in academic contexts.",
+    uk: "Roughly a UK halls 'resident tutor' / warden, but usually a fellow student.",
+    ex: "\"Tell your RA if there's a problem on the floor.\"" },
+  { term: "Registrar", cat: "People", ff: false,
+    us: "The office that manages enrollment, records, transcripts and registration.", uk: "Similar function to a UK registry.",
+    ex: "\"Get your transcript from the registrar.\"" },
+  { term: "Provost", cat: "People", ff: false,
+    us: "The senior academic officer of a university, usually second to the president.", uk: "Roughly a UK 'pro-vice-chancellor (academic)'.",
+    ex: "\"The provost oversees all the academic deans.\"" },
+  { term: "Dean", cat: "People", ff: false,
+    us: "Head of a college/school within the university (Dean of Engineering), or of student life (Dean of Students).", uk: "Similar to UK use.",
+    ex: "\"The Dean of Students handles conduct issues.\"" },
+  { term: "President / Chancellor", cat: "People", ff: false,
+    us: "The chief executive of a university. Some systems call this role 'chancellor'. Titles vary by institution and system.",
+    uk: "In the UK the working head is usually the Vice-Chancellor; the Chancellor is ceremonial. The US meaning differs.",
+    ex: "\"The university president announced the new campus.\"" },
+
+  // ---- DEGREES ----
+  { term: "Associate degree", cat: "Degrees", ff: false,
+    us: "A 2-year undergraduate degree (AA or AS), often from a community college. Can stand alone or transfer toward a bachelor's.",
+    uk: "Closest UK idea is a foundation degree or HND, but the transfer pathway is distinctly American.",
+    ex: "\"She earned an associate degree, then transferred.\"" },
+  { term: "Bachelor's degree (BA / BS)", cat: "Degrees", ff: false,
+    us: "The standard 4-year first degree. BA = Bachelor of Arts, BS = Bachelor of Science. Requires about 120 credits including major, gen eds and electives.",
+    uk: "UK bachelor's are usually 3 years and far more specialised, with no gen eds.",
+    ex: "\"He has a BS in computer science.\"" },
+  { term: "Master's degree (MA / MS)", cat: "Degrees", ff: false,
+    us: "A graduate degree after a bachelor's, often 1 to 2 years.", uk: "Similar to UK master's, though UK taught master's are often 1 year.",
+    ex: "\"She's doing an MS in data science.\"" },
+  { term: "MBA", cat: "Degrees", ff: false,
+    us: "Master of Business Administration, a professional graduate degree, often taken after work experience.", uk: "Same concept in the UK.",
+    ex: "\"He went back for an MBA after five years working.\"" },
+  { term: "PhD / doctorate", cat: "Degrees", ff: false,
+    us: "The highest academic degree, research-based, often 4 to 6+ years in the US and frequently including coursework and teaching early on.",
+    uk: "UK PhDs are typically shorter (3 to 4 years) and coursework-light. Don't assume the same length or structure.",
+    ex: "\"She's a third-year PhD student.\"" },
+  { term: "Professional school", cat: "Degrees", ff: false,
+    us: "Graduate schools for specific careers: law school (JD), medical school (MD), business school (MBA). Entered after a bachelor's.",
+    uk: "In the UK, law and medicine are often undergraduate degrees. In the US they are graduate-level, which surprises Brits.",
+    ex: "\"He's applying to law school after his bachelor's.\"" },
+
+  // ---- ADMISSIONS ----
+  { term: "Common App", cat: "Admissions", ff: false,
+    us: "A shared online application accepted by many universities, so students apply to several schools at once.",
+    uk: "The UK equivalent is UCAS, though UCAS limits choices differently.",
+    ex: "\"I'm filling out the Common App this weekend.\"" },
+  { term: "SAT / ACT", cat: "Admissions", ff: false,
+    us: "Standardised admissions tests. Most four-year colleges are still 'test-optional', but many selective universities (including most of the Ivy League, MIT and Stanford) reinstated a testing requirement for the 2025-2026 cycle. Policies vary by school and change year to year.",
+    uk: "There is no UK equivalent; UK admissions lean on A-level grades and predicted grades.",
+    ex: "\"She's retaking the SAT to raise her score.\"" },
+  { term: "SAT (the test)", cat: "Admissions", ff: false,
+    us: "A standardised college-admissions test run by the College Board, now fully digital and adaptive. Scored out of 1600 across two sections, Reading & Writing and Math. It has no separate science section; science-style reasoning is built into the questions.",
+    uk: "No UK equivalent. Think of it loosely as a general aptitude test sat alongside school grades, not a subject exam like an A-level.",
+    ex: "\"She scored 1450 on the SAT.\"" },
+  { term: "ACT (the test)", cat: "Admissions", ff: false,
+    us: "The other main admissions test, run by ACT. Scored 1 to 36 (a composite averaging English, Math and Reading). It traditionally had a separate Science section, which became optional from 2025. Colleges accept the SAT and ACT equally, and students usually take whichever suits them.",
+    uk: "No UK equivalent. The headline difference from the SAT: a distinct (now optional) science section and a 1 to 36 score instead of 1600.",
+    ex: "\"He took the ACT instead and got a 32.\"" },
+  { term: "SAT vs ACT", cat: "Admissions", ff: false,
+    us: "Two interchangeable admissions tests; colleges accept either. Key differences: the SAT is digital, scored to 1600, with no standalone science section; the ACT is scored 1 to 36 and has a separate science section (optional since 2025) and is often described as more fact-paced. Students pick the one they score better on.",
+    uk: "Useful for sales conversations: a US applicant's score could be on either scale, so '1500' (SAT) and '34' (ACT) are both strong, just different tests.",
+    ex: "\"Should I take the SAT or the ACT?\" is a normal student question.\"" },
+  { term: "High school diploma", cat: "Admissions", ff: false,
+    us: "The credential awarded for completing US secondary school (through 12th grade). Normally required to be admitted to a college or university.",
+    uk: "Roughly the completion-of-school credential, though the US diploma is based on years of coursework and a GPA rather than terminal exams like A-levels.",
+    ex: "\"You generally need a high school diploma to enroll.\"" },
+  { term: "GED", cat: "Admissions", ff: false,
+    us: "General Educational Development, a set of exams that certifies high-school-level skills for people who did not finish high school. Widely accepted by colleges as an equivalent to a high school diploma for admission.",
+    uk: "No direct UK equivalent; closest idea is an adult/access route to higher education for those without standard school-leaving qualifications.",
+    ex: "\"He earned his GED and then enrolled at community college.\"" },
+  { term: "GPA (high school)", cat: "Admissions", ff: false,
+    us: "High schoolers also carry a GPA, used heavily in college admissions alongside test scores and essays.", uk: "",
+    ex: "\"Top schools want a high GPA and strong essays.\"" },
+  { term: "Early decision / early action", cat: "Admissions", ff: false,
+    us: "Apply earlier for a faster decision. Early decision is binding (you must attend if accepted); early action is not.",
+    uk: "No direct UK equivalent beyond Oxbridge/medicine early deadlines.",
+    ex: "\"She got in early decision, so she's committed.\"" },
+  { term: "Major (intended)", cat: "Admissions", ff: false,
+    us: "On applications students list an 'intended major', but it's often not binding; many switch or stay undeclared.",
+    uk: "Unlike the UK, where you apply to a specific course, this is frequently provisional.",
+    ex: "\"I applied as an intended bio major but might switch.\"" },
+  { term: "Rolling admissions", cat: "Admissions", ff: false,
+    us: "Applications reviewed as they arrive until spots fill, rather than one fixed deadline.", uk: "",
+    ex: "\"Apply early, it's rolling admissions.\"" },
+
+  // ---- FINANCIAL ----
+  { term: "Tuition", cat: "Financial", ff: false,
+    us: "The price charged for instruction, separate from room, board and fees. Can be very high, especially at private schools and for out-of-state students.",
+    uk: "UK 'tuition fees' are capped for home students; US tuition varies enormously by institution and residency.",
+    ex: "\"Out-of-state tuition is much higher than in-state.\"" },
+  { term: "Room and board", cat: "Financial", ff: false,
+    us: "The cost of housing ('room') and a meal plan ('board'), billed on top of tuition.", uk: "UK splits accommodation and food separately and rarely bundles a meal plan.",
+    ex: "\"Tuition plus room and board comes to a lot.\"" },
+  { term: "FAFSA", cat: "Financial", ff: false,
+    us: "Free Application for Federal Student Aid, the form that determines eligibility for federal grants, loans and work-study.", uk: "UK equivalent is Student Finance, but the system differs.",
+    ex: "\"Did you submit your FAFSA yet?\"" },
+  { term: "Financial aid", cat: "Financial", ff: false,
+    us: "The package of grants, scholarships, loans and work-study that reduces what a student actually pays. 'Aid' is central to US decisions.",
+    uk: "Less central in the UK because fees are capped and loans are standardised.",
+    ex: "\"Her financial aid package made it affordable.\"" },
+  { term: "Scholarship vs grant", cat: "Financial", ff: false,
+    us: "Both are money you don't repay. Scholarships are usually merit-based (achievement); grants are usually need-based (income).", uk: "Similar terms exist but play a smaller role.",
+    ex: "\"He got a merit scholarship and a need-based grant.\"" },
+  { term: "In-state vs out-of-state tuition", cat: "Financial", ff: false,
+    us: "At a public (state) university, residents of that state pay much lower 'in-state' tuition because their families' taxes help fund the school. Students from other US states pay higher 'out-of-state' tuition, sometimes two or three times as much. Private universities don't make this distinction; everyone pays the same.",
+    uk: "No UK equivalent; this residency-based pricing is uniquely American and a big factor in where students choose to apply.",
+    ex: "\"Out-of-state tuition was double, so she stayed in-state.\"" },
+  { term: "International students (tuition)", cat: "Financial", ff: false,
+    us: "Students from outside the US generally pay the higher out-of-state or a separate international rate, even at public universities, and usually can't access US federal aid (no FAFSA). Some schools offer them limited institutional scholarships. International tuition is a significant revenue source for many universities.",
+    uk: "Similar in spirit to the UK's higher 'international/overseas' fees, so this one maps reasonably well for British colleagues.",
+    ex: "\"As an international student he paid the full international rate.\"" },
+  { term: "Full-ride scholarship", cat: "Financial", ff: false,
+    us: "A scholarship that covers essentially the entire cost: tuition, fees and usually room and board, sometimes books and a stipend too. The most generous award, given for academics, athletics or need. A 'full tuition' scholarship, by contrast, covers only tuition.",
+    uk: "No common UK equivalent at this scale; closest idea is a fully funded scholarship, but full rides are a bigger feature of US (especially athletic) recruiting.",
+    ex: "\"She got a full ride to play soccer.\"" },
+  { term: "Work-study", cat: "Financial", ff: false,
+    us: "A federal program providing part-time campus jobs to students with financial need.", uk: "",
+    ex: "\"My work-study job is in the library.\"" },
+  { term: "Per-credit tuition", cat: "Financial", ff: false,
+    us: "Tuition charged by the credit hour, so each course adds cost. This is how part-time students (typically below 12 credits a term) are usually billed.",
+    uk: "No UK equivalent; UK home tuition is a flat annual fee set by government caps, not priced per module.",
+    ex: "\"Part-time, I pay per credit, so dropping a class saves money.\"" },
+  { term: "Flat-rate / full-time tuition band", cat: "Financial", ff: false,
+    us: "At many universities, full-time students (often 12 to 18 credits a term) pay one flat tuition rate. Within that band, taking an extra course costs nothing more, so 15 and 18 credits can cost the same.",
+    uk: "Surprising to Brits: there's a range of course loads that all cost the same, rewarding students who take more.",
+    ex: "\"I added a fifth class for free since I'm still inside the full-time band.\"" },
+  { term: "Credit overload", cat: "Financial", ff: false,
+    us: "Taking more credits than the full-time band allows (e.g. above 18). It usually needs approval and triggers an extra per-credit overload fee.",
+    uk: "",
+    ex: "\"Going over 18 credits meant an overload fee per extra credit.\"" },
+  { term: "Student fees", cat: "Financial", ff: false,
+    us: "Mandatory charges on top of tuition (technology, health centre, activities, athletics, facilities). Often billed per term regardless of how many credits you take.",
+    uk: "UK fees are largely bundled into the headline tuition figure; the US itemises many separate fees.",
+    ex: "\"After tuition there's a stack of student fees too.\"" },
+  { term: "Cost of attendance", cat: "Financial", ff: false,
+    us: "The school's published total estimate: tuition, fees, room and board, books and living costs. Used to work out financial aid.",
+    uk: "Roughly the UK idea of tuition plus maintenance costs, but presented as one official figure.",
+    ex: "\"Financial aid is calculated against the full cost of attendance.\"" },
+  { term: "Pell Grant", cat: "Financial", ff: false,
+    us: "A major federal need-based grant for undergraduates from lower-income families. Does not have to be repaid.",
+    uk: "No direct UK equivalent; closest idea is a maintenance grant.",
+    ex: "\"She qualified for a Pell Grant based on her family's income.\"" },
+  { term: "Student loans", cat: "Financial", ff: false,
+    us: "Federal or private borrowing to pay for school. Repayment terms and debt levels differ sharply from the UK income-contingent system.",
+    uk: "UK loans are government-run and repaid as a salary-linked deduction. US private loans behave more like ordinary debt.",
+    ex: "\"He's paying down student loans after graduating.\"" },
+
+  // ---- CAMPUS LIFE ----
+  { term: "Dorm / residence hall", cat: "Campus life", ff: false,
+    us: "On-campus student housing. 'Dorm' is the casual word.", uk: "UK says 'halls' or 'halls of residence'.",
+    ex: "\"Freshmen usually live in the dorms.\"" },
+  { term: "Meal plan", cat: "Campus life", ff: false,
+    us: "A prepaid package of dining-hall meals or points, often required for students living on campus.", uk: "Uncommon in UK universities.",
+    ex: "\"My meal plan gives me 14 meals a week.\"" },
+  { term: "Greek life", cat: "Campus life", ff: false,
+    us: "Fraternities (men) and sororities (women), social organisations named with Greek letters. Members 'rush' to join and 'pledge'.",
+    uk: "No UK equivalent; this surprises Brits and is culturally significant on many campuses.",
+    ex: "\"She rushed a sorority freshman year.\"" },
+  { term: "Campus", cat: "Campus life", ff: false,
+    us: "The university grounds. US campuses are often large, self-contained and residential.", uk: "Same word; UK campuses are often smaller or city-integrated.",
+    ex: "\"Everything is on campus, including dining.\"" },
+  { term: "Quad", cat: "Campus life", ff: false,
+    us: "A central open courtyard on campus, a social hub.", uk: "Same word exists, common at Oxbridge.",
+    ex: "\"Meet me on the quad.\"" },
+  { term: "Varsity / college athletics", cat: "Campus life", ff: false,
+    us: "University sports are a major institution (NCAA), with scholarships, big audiences and strong identity. 'Varsity' = the top team.",
+    uk: "UK university sport is far lower-profile; the scale and money of US college athletics is hard to overstate.",
+    ex: "\"He's on a football scholarship.\"" },
+  { term: "Commencement", cat: "Campus life", ff: false,
+    us: "The graduation ceremony. Confusingly, it marks the end of study, not the beginning.", uk: "UK says 'graduation'.",
+    ex: "\"Commencement is in May.\"" },
+  { term: "Alumni / alum", cat: "Campus life", ff: false,
+    us: "Graduates of a school. 'Alum' is the casual singular; alumni networks matter a lot in the US.", uk: "Same word; networks are typically less central in the UK.",
+    ex: "\"The alumni network helped him get the job.\"" },
+
+  // ---- FORMATS & PATHWAYS ----
+  { term: "In-person / online / hybrid courses", cat: "Formats & pathways", ff: false,
+    us: "Courses come in three delivery modes: in-person (on campus), online (remote), and hybrid (a mix of both). Crucially, a single student usually mixes modes within the same term, e.g. two in-person classes, one online and one hybrid, whatever fits their schedule.",
+    uk: "Common misunderstanding: people assume a student is 'an online student' OR 'an in-person student'. Most aren't. The format is chosen course by course, not for the whole degree.",
+    ex: "\"I took stats online so I could keep my morning lab in person.\"" },
+  { term: "Synchronous vs asynchronous", cat: "Formats & pathways", ff: false,
+    us: "For online courses: synchronous means live at a set time (you log in for the lecture); asynchronous means self-paced, with recorded material and deadlines but no fixed meeting time.",
+    uk: "Same terms apply, but worth flagging because 'online' alone doesn't tell you whether it's live.",
+    ex: "\"It's asynchronous, so I watch the lectures whenever I want.\"" },
+  { term: "Transfer student", cat: "Formats & pathways", ff: false,
+    us: "A student who starts at one institution and moves to another to finish their degree, carrying earned credits with them. The most common route: start at a community college, then transfer into a 4-year university for the final two years.",
+    uk: "No real UK equivalent; switching universities mid-degree is unusual in the UK but is a planned, mainstream strategy in the US.",
+    ex: "\"She transferred from community college to the state university as a junior.\"" },
+  { term: "Community college pathway", cat: "Formats & pathways", ff: false,
+    us: "A deliberate money-saving route: do your first two years (mostly general-education courses) at a cheap local community college, then transfer to a 4-year university to complete the major and earn the bachelor's. The degree is awarded by the university, not the community college.",
+    uk: "There is no UK equivalent. It exists because US tuition is high and community college is far cheaper per credit.",
+    ex: "\"He knocked out his gen eds at community college, then transferred to finish his degree.\"" },
+  { term: "State school / state university", cat: "Formats & pathways", ff: false,
+    us: "A public university funded by a particular US state (e.g. University of Florida, Ohio State). They charge in-state residents much less, are usually large, and many have fairly open or modest admission requirements, so a solid high-school record often gets you in. They sit alongside more selective private universities.",
+    uk: "Don't read 'state school' as lower quality. Many state flagships are excellent and huge; the term just means publicly funded, and entry is often more accessible than at selective privates.",
+    ex: "\"She went to the state school an hour from home to save on tuition.\"" },
+  { term: "Open admission", cat: "Formats & pathways", ff: false,
+    us: "An admissions policy where almost any applicant with a high school diploma or GED is accepted. Common at community colleges and many state schools, in contrast to selective universities that reject most applicants.",
+    uk: "Closest UK idea is a course with low or unconditional entry requirements, but here it can apply to whole institutions.",
+    ex: "\"It's open admission, so getting in isn't the hard part, finishing is.\"" },
+  { term: "Dual enrollment", cat: "Formats & pathways", ff: false,
+    us: "When a high-school student takes actual college courses (for real college credit) while still in high school, getting a head start on their degree.",
+    uk: "No UK equivalent; the closest idea is studying ahead, but here the student earns genuine university credit early.",
+    ex: "\"She did dual enrollment and started university with a semester's worth of credits.\"" },
+  { term: "AP (Advanced Placement)", cat: "Formats & pathways", ff: false,
+    us: "College-level courses and exams taken in high school. A high enough exam score can earn college credit or let a student skip introductory courses, another way to get a head start.",
+    uk: "Roughly comparable in spirit to taking A-levels that earn university credit, which the UK doesn't really do.",
+    ex: "\"His AP scores let him skip first-year calculus.\"" },
+];
+
+const JOURNEY = [
+  { when: "Age 17 to 18, final year of high school", what: "Apply to one or several universities", detail: "Applicants need a high school diploma or GED, and submit essays and a high-school GPA. Many schools use the Common App. SAT/ACT scores are optional at many colleges but required again at a number of selective ones. Some students apply widely; many apply to just a few, chosen on degree fit and cost. An 'intended major' is usually not binding." },
+  { when: "Spring of senior year of high school", what: "Compare offers and financial aid", detail: "Acceptances arrive with financial aid packages. Cost, aid, in-state vs out-of-state and fit drive the choice. Students 'commit' to one school." },
+  { when: "Year 1, freshman", what: "Start mostly undeclared, take gen eds", detail: "Register for four or five courses, often general-education requirements plus a few electives. Live in the dorms. No major locked in yet." },
+  { when: "Each term, every year", what: "Register again for next term's courses", detail: "Registration repeats every semester or quarter. Pick from the catalog, clear any holds, get advisor sign-off, manage waitlists and add/drop. This recurring scramble has no real UK equivalent." },
+  { when: "End of year 2, sophomore", what: "Declare a major", detail: "After sampling courses, the student formally declares their major (and optionally a minor). This is the big difference from the UK, where the subject is fixed at application." },
+  { when: "Year 3, junior", what: "Go deeper, internships, maybe study abroad", detail: "Coursework concentrates in the major. Many do summer internships or a semester abroad. GPA and major GPA start to matter for jobs and grad school." },
+  { when: "Year 4, senior", what: "Finish requirements and credits", detail: "Complete the roughly 120 credits needed, including remaining gen eds, major requirements and electives. Apply for jobs or grad/professional school." },
+  { when: "Usually May", what: "Commencement (graduation)", detail: "Graduate with a bachelor's, possibly with Latin honors (cum laude). Some continue to grad school or professional school (law, medicine, business)." },
+];
+
+const GENEDS = [
+  { lvl: "Writing / composition", extra: "almost always required", desc: "English composition, academic writing, rhetoric. Often a first-year requirement." },
+  { lvl: "Mathematics / quantitative reasoning", extra: "", desc: "College algebra, statistics, calculus, or a logic/quantitative course." },
+  { lvl: "Natural sciences", extra: "often with a lab", desc: "Biology, chemistry, physics, environmental science, astronomy." },
+  { lvl: "Social sciences", extra: "", desc: "Psychology, sociology, economics, political science, anthropology." },
+  { lvl: "Humanities", extra: "", desc: "Literature, philosophy, history, religious studies." },
+  { lvl: "Arts", extra: "", desc: "Music, visual art, theatre, film, art history." },
+  { lvl: "Foreign language", extra: "common, not universal", desc: "A year or two of a language, or proof of proficiency." },
+  { lvl: "History / government / civics", extra: "varies by state and school", desc: "US history or American government, sometimes legally required at public universities." },
+  { lvl: "Diversity / global perspectives", extra: "increasingly common", desc: "Courses on cultures, ethics, or global issues to broaden perspective." },
+  { lvl: "First-year seminar", extra: "at many schools", desc: "A small intro course on academic skills and adjusting to university." },
+];
+
+const LADDER = [
+  { lvl: "Associate", extra: "2 years, AA / AS", desc: "Often from a community college. Can transfer toward a bachelor's." },
+  { lvl: "Bachelor's", extra: "4 years, BA / BS", desc: "The standard first degree. About 120 credits: major, gen eds and electives." },
+  { lvl: "Master's", extra: "1 to 2 years, MA / MS / MBA", desc: "Graduate study after a bachelor's." },
+  { lvl: "Doctorate", extra: "4 to 6+ years, PhD", desc: "Research degree, the highest academic level. Often includes coursework and teaching." },
+  { lvl: "Professional", extra: "JD, MD", desc: "Law and medicine are graduate-level in the US, entered after a bachelor's." },
+];
+
+// ---- Render glossary ----
+const grid = document.getElementById('grid');
+const catsEl = document.getElementById('cats');
+const countEl = document.getElementById('count');
+const emptyEl = document.getElementById('empty');
+const qEl = document.getElementById('q');
+const ffToggle = document.getElementById('ffToggle');
+
+let activeCat = 'All';
+let ffOnly = false;
+
+const cats = ['All', ...Array.from(new Set(DATA.map(d => d.cat)))];
+cats.forEach(c => {
+  const el = document.createElement('div');
+  el.className = 'cat' + (c === 'All' ? ' active' : '');
+  el.textContent = c;
+  el.onclick = () => { activeCat = c; document.querySelectorAll('.cat').forEach(x => x.classList.toggle('active', x.textContent === c)); render(); };
+  catsEl.appendChild(el);
+});
+
+function render() {
+  const q = qEl.value.trim().toLowerCase();
+  const items = DATA.filter(d => {
+    if (ffOnly && !d.ff) return false;
+    if (activeCat !== 'All' && d.cat !== activeCat) return false;
+    if (!q) return true;
+    return (d.term + ' ' + d.us + ' ' + (d.uk||'') + ' ' + d.ex + ' ' + d.cat).toLowerCase().includes(q);
+  });
+  grid.innerHTML = '';
+  items.forEach(d => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML =
+      `<div class="tag">${d.cat}</div>` +
+      `<div class="term">${d.term}</div>` +
+      `<div class="us">${d.us}</div>` +
+      (d.uk ? `<div class="ff"><b>⚠️ UK note:</b> ${d.uk}</div>` : '') +
+      `<div class="ex">${d.ex}</div>`;
+    grid.appendChild(card);
+  });
+  countEl.textContent = items.length + (items.length === 1 ? ' term' : ' terms') + (ffOnly ? ', false friends only' : '');
+  emptyEl.classList.toggle('hide', items.length > 0);
+}
+
+qEl.addEventListener('input', render);
+ffToggle.onclick = () => { ffOnly = !ffOnly; ffToggle.classList.toggle('on', ffOnly); render(); };
+
+// ---- Render journey ----
+const tl = document.getElementById('timeline');
+JOURNEY.forEach(s => {
+  const el = document.createElement('div');
+  el.className = 'step';
+  el.innerHTML = `<div class="when">${s.when}</div><div class="what">${s.what}</div><div class="detail">${s.detail}</div>`;
+  tl.appendChild(el);
+});
+
+// ---- Render ladder + gen eds ----
+function renderRungs(targetId, rows) {
+  const t = document.getElementById(targetId);
+  rows.forEach(r => {
+    const el = document.createElement('div');
+    el.className = 'rung';
+    el.innerHTML = `<div class="lvl">${r.lvl} ${r.extra ? `<span>${r.extra}</span>` : ''}</div><div class="desc">${r.desc}</div>`;
+    t.appendChild(el);
+  });
+}
+renderRungs('ladder', LADDER);
+renderRungs('geneds', GENEDS);
+
+// ---- Quiz ----
+// Tagged question bank. Each play draws QUIZ_COUNT questions spread across
+// different categories, with answer options shuffled, so it stays fresh and replayable.
+const QUIZ_BANK = [
+  // False friends
+  { cat: "False friends", q: "An American colleague says \"I'm taking five courses this semester.\" What does she mean?",
+    options: ["She's enrolled in five separate subjects at once", "She's doing five whole degrees", "She has five lectures today", "She's on five waiting lists"],
+    answer: 0, why: "In the US a 'course' is one subject for one term. In the UK 'course' means the whole degree, which is the classic trip-up." },
+  { cat: "False friends", q: "A 30-year-old American says \"I'm going back to school.\" Most likely meaning?",
+    options: ["Returning to secondary school", "Starting a graduate degree at university", "Becoming a teacher", "Retaking exams"],
+    answer: 1, why: "Americans say 'school' for university at any age. 'Going back to school' usually means starting a master's or PhD." },
+  { cat: "False friends", q: "An American says \"I went to public school.\" What does that tell you?",
+    options: ["They went to an elite fee-paying school", "They went to a normal free, government-funded school", "They were home-schooled", "They went to a religious school"],
+    answer: 1, why: "US 'public school' means free and state-funded, the opposite of the UK meaning (Eton-style private). The sense is basically inverted." },
+  { cat: "False friends", q: "A student is 'class of 2027'. What does that mean?",
+    options: ["They graduate in 2027", "They're ranked first in 2027", "They have one class in 2027", "They started in 2027"],
+    answer: 0, why: "'Class' can mean a cohort by graduation year. Class of 2027 = graduating in 2027." },
+
+  // Year levels
+  { cat: "Year levels", q: "Put the four undergraduate years in order.",
+    options: ["Freshman, Sophomore, Junior, Senior", "Fresher, Junior, Senior, Sophomore", "First, Second, Third, Final", "Sophomore, Freshman, Senior, Junior"],
+    answer: 0, why: "Freshman, Sophomore, Junior, Senior. 'Senior' means final-year student, not senior staff." },
+  { cat: "Year levels", q: "Which year of university is a 'sophomore' in?",
+    options: ["Second year", "First year", "Third year", "Final year"],
+    answer: 0, why: "Sophomore is the second year. The sequence is Freshman, Sophomore, Junior, Senior." },
+
+  // Academics
+  { cat: "Academics", q: "When does a typical US student declare their major?",
+    options: ["Around the end of their second (sophomore) year", "When they apply, like in the UK", "On their first day", "Only in grad school"],
+    answer: 0, why: "Most start undeclared and declare by the end of sophomore year, after sampling courses. Very different from the UK fixed-at-application model." },
+  { cat: "Academics", q: "What is a 'gen ed' requirement?",
+    options: ["Required broad courses outside your major", "A general election module", "A general practitioner training year", "The graduation ceremony"],
+    answer: 0, why: "General education courses give breadth: a science major still takes some humanities. There's no UK equivalent because UK degrees specialise from day one." },
+  { cat: "Academics", q: "Roughly how many credits does a US bachelor's degree need?",
+    options: ["About 120", "About 40", "Exactly 100", "It varies with no total"],
+    answer: 0, why: "Around 120 credits, accumulated across many small courses (typically 3 credits each), covering the major, gen eds and electives." },
+  { cat: "Academics", q: "What does the '101' in 'Biology 101' tell you?",
+    options: ["It's the introductory, entry-level course", "It's the 101st lecture", "It's the hardest course", "It's worth 101 credits"],
+    answer: 0, why: "Courses are numbered by level: 100-level is introductory, 200 next, 300 and 400 advanced. Higher numbers usually have prerequisites, so the number signals the order classes are taken in." },
+
+  // Degrees
+  { cat: "Degrees", q: "In the US, when are law and medicine usually studied?",
+    options: ["As graduate (professional) school after a bachelor's", "As undergraduate degrees, like the UK", "At community college", "They aren't taught in the US"],
+    answer: 0, why: "Law (JD) and medicine (MD) are graduate-level in the US, entered after a bachelor's. In the UK they're often undergraduate." },
+  { cat: "Degrees", q: "What is an associate degree?",
+    options: ["A 2-year degree, often from a community college", "A junior staff job title", "A type of scholarship", "A master's degree"],
+    answer: 0, why: "An associate degree (AA or AS) is a 2-year undergraduate degree, commonly from a community college, often used as a stepping stone to a bachelor's." },
+
+  // Financial
+  { cat: "Financial", q: "What does 'in-state tuition' refer to?",
+    options: ["A discount for residents of the university's state", "Tuition paid in instalments", "Tuition for online study", "A government tax"],
+    answer: 0, why: "Public universities charge state residents far less than out-of-state students. This residency-based pricing is uniquely American." },
+  { cat: "Financial", q: "A full-time student inside the flat-rate tuition band adds one more course. What happens to tuition?",
+    options: ["Usually nothing, it costs no extra within the band", "It roughly doubles", "They get a refund", "They drop to part-time"],
+    answer: 0, why: "Many schools charge a flat rate across a band (often 12 to 18 credits), so extra courses within it cost no additional tuition." },
+  { cat: "Financial", q: "Which type of aid is typically merit-based (for achievement)?",
+    options: ["A scholarship", "A grant", "A student loan", "Work-study"],
+    answer: 0, why: "Scholarships are usually merit-based; grants are usually need-based. Both are free money you don't repay." },
+
+  // Formats & pathways
+  { cat: "Formats & pathways", q: "A student takes two in-person classes, one online and one hybrid in the same term. Is that normal?",
+    options: ["Yes, students mix formats course by course", "No, you must pick one mode for your whole degree", "No, hybrid and online can't be combined", "Only graduate students can do that"],
+    answer: 0, why: "The big misconception. Format is chosen per course, so a single student routinely mixes in-person, online and hybrid in one term." },
+  { cat: "Formats & pathways", q: "Why do many US students start at a community college before a university?",
+    options: ["To do cheaper gen ed courses, then transfer to finish the degree", "Because universities won't take freshmen", "It's legally required first", "To avoid declaring a major"],
+    answer: 0, why: "Community college is far cheaper per credit, so students do their gen eds there, then transfer to a 4-year university, which awards the bachelor's." },
+  { cat: "Formats & pathways", q: "What does 'dual enrollment' let a high-school student do?",
+    options: ["Earn real college credit while still in high school", "Attend two high schools at once", "Take two majors", "Defer university for two years"],
+    answer: 0, why: "Dual enrollment (and AP) let high schoolers earn genuine college credit early, arriving at university with a head start." },
+
+  // Grading
+  { cat: "Grading", q: "What is a GPA?",
+    options: ["A 0 to 4 average of your grades", "A graduation date", "A government payment", "A type of degree"],
+    answer: 0, why: "Grade Point Average, usually 0.0 to 4.0, where 4.0 is straight A's. The UK uses classifications (First, 2:1) instead, with no clean conversion." },
+  { cat: "Grading", q: "What is a 'transcript'?",
+    options: ["The official record of every course taken and grade earned", "A recorded lecture", "A reference letter", "A class timetable"],
+    answer: 0, why: "The transcript is the official academic record, requested for jobs, transfers and grad school. It matters more in the US than the UK, where the final classification dominates." },
+
+  // Registration
+  { cat: "Registration", q: "How often does a US student register for their classes?",
+    options: ["Every term (semester or quarter)", "Once, at the start of the degree", "Only in their final year", "Never, classes are assigned"],
+    answer: 0, why: "Registration repeats every term. Students pick from the catalog, choosing courses, sections, professors and times, which has no real UK equivalent." },
+  { cat: "Registration", q: "A student says \"there's a hold on my account.\" What does that mean before registration?",
+    options: ["Something (e.g. unpaid fees) is blocking them from registering until cleared", "Their place is reserved", "They've been suspended", "Their grades are frozen"],
+    answer: 0, why: "A 'hold' blocks registration until the issue (unpaid fees, missing forms, advising not done) is resolved." },
+
+  // Calendar
+  { cat: "Calendar", q: "What is 'finals week'?",
+    options: ["End-of-term exams concentrated into one intense week", "The last week before graduation", "A sports final", "Freshers' week"],
+    answer: 0, why: "Finals are end-of-term exams, packed into a single 'finals week'. The UK more often groups exams at year-end." },
+  { cat: "Calendar", q: "In the common two-semester system, what are the two main semesters?",
+    options: ["Fall (Aug to Dec) and spring (Jan to May)", "Winter and summer", "Michaelmas and Lent", "Q1 and Q2"],
+    answer: 0, why: "The standard rhythm is fall and spring semesters, with an optional summer term. This shapes registration, internships and more." },
+
+  // People
+  { cat: "People", q: "Who is a 'TA' on a US course?",
+    options: ["Usually a graduate student who helps run the course", "The head professor", "An administrator", "A teaching auditor"],
+    answer: 0, why: "A Teaching Assistant is typically a grad student who leads discussion sections, grades work and holds office hours." },
+  { cat: "People", q: "Does 'Professor' in the US mean a senior departmental chair like in the UK?",
+    options: ["No, it's a broad title used for most academics who teach, including junior ones", "Yes, it's always the most senior academic", "No, it means a PhD student", "Yes, but only at private schools"],
+    answer: 0, why: "US students call almost any instructor 'Professor'. The ranks include Assistant and Associate Professor, so don't assume UK-chair seniority." },
+
+  // Admissions
+  { cat: "Admissions", q: "What is the 'Common App'?",
+    options: ["One online application accepted by many universities at once", "A messaging app for students", "A shared course catalog", "A student ID system"],
+    answer: 0, why: "The Common Application lets a student apply to many schools with one form, the closest US equivalent to UCAS." },
+  { cat: "Admissions", q: "What's the difference between 'early decision' and 'early action'?",
+    options: ["Early decision is binding; early action is not", "Early action is binding; early decision is not", "Both are binding", "Neither is binding, they're identical"],
+    answer: 0, why: "Both mean applying early for a faster answer, but early decision commits you to attend if accepted, while early action leaves you free to choose." },
+  { cat: "Admissions", q: "What do you normally need to be admitted to a US college?",
+    options: ["A high school diploma or a GED", "A university entrance exam only", "A reference from an employer", "Nothing at all"],
+    answer: 0, why: "A high school diploma (or a GED, the equivalent for those who didn't finish high school) is the standard baseline requirement for admission." },
+  { cat: "Admissions", q: "A key difference between the SAT and the ACT is that the ACT...",
+    options: ["Has a separate science section (optional since 2025) and is scored 1 to 36", "Is only taken by graduate students", "Is the same test under a different name", "Replaces the high school diploma"],
+    answer: 0, why: "The ACT is scored 1 to 36 and has a distinct (now optional) science section; the digital SAT is scored to 1600 with no standalone science section. Colleges accept either." },
+  { cat: "Admissions", q: "What is a 'state school' in the US?",
+    options: ["A public university funded by a state, often with accessible entry", "A free secondary school", "A boarding school", "A private elite university"],
+    answer: 0, why: "A state school is a publicly funded university (e.g. Ohio State). They charge residents less and many have fairly open admissions, unlike selective privates. 'State' means public, not lower quality." },
+
+  // Campus life
+  { cat: "Campus life", q: "A US 'dorm' is the UK equivalent of what?",
+    options: ["Halls of residence", "A lecture hall", "A common room", "A library"],
+    answer: 0, why: "'Dorm' (dormitory / residence hall) is on-campus student housing, what the UK calls halls." },
+  { cat: "Campus life", q: "What does 'Greek life' refer to?",
+    options: ["Fraternities and sororities (social organisations)", "Classics degrees", "An exchange programme in Greece", "A dining hall"],
+    answer: 0, why: "Fraternities (men) and sororities (women) are social organisations named with Greek letters. There's no UK equivalent." },
+  { cat: "Campus life", q: "What does 'commencement' mean?",
+    options: ["The graduation ceremony", "The first day of term", "Freshers' week", "Mid-year exams"],
+    answer: 0, why: "Confusingly, commencement is the graduation ceremony, marking the end of study, not the start." },
+
+  // ---- Additional depth per category ----
+  { cat: "Year levels", q: "A 'junior' at a US university is in which year?",
+    options: ["Third year", "First year", "Final year", "A younger sibling"],
+    answer: 0, why: "Junior is the third year. The sequence is Freshman, Sophomore, Junior, Senior." },
+  { cat: "Year levels", q: "What is a 'grad student'?",
+    options: ["Someone doing a master's or doctorate after a bachelor's", "A student about to graduate high school", "A first-year undergraduate", "A graduate who now works at the school"],
+    answer: 0, why: "A graduate student is doing postgraduate study (master's or PhD). The UK says 'postgraduate'; Americans rarely say 'postgrad'." },
+  { cat: "Degrees", q: "What does a 'BA' or 'BS' refer to?",
+    options: ["A bachelor's degree (of Arts or Science)", "A business award", "A type of scholarship", "A high school diploma"],
+    answer: 0, why: "BA = Bachelor of Arts, BS = Bachelor of Science, the standard 4-year first degree of about 120 credits." },
+  { cat: "Degrees", q: "How long is a typical US PhD?",
+    options: ["Often 4 to 6+ years", "Usually under a year", "Exactly 2 years", "The same 3 years as the UK"],
+    answer: 0, why: "US PhDs often run 4 to 6+ years and frequently include coursework and teaching, longer than the typical 3 to 4 year UK PhD." },
+  { cat: "Financial", q: "What is the FAFSA?",
+    options: ["The form that determines eligibility for federal financial aid", "A type of student loan", "A college entrance exam", "A graduation requirement"],
+    answer: 0, why: "The Free Application for Federal Student Aid decides eligibility for federal grants, loans and work-study. It's the starting point for aid." },
+  { cat: "Formats & pathways", q: "What does it mean when a student 'transfers'?",
+    options: ["They move from one institution to another, carrying earned credits", "They change their major", "They switch from online to in person", "They take a year out"],
+    answer: 0, why: "Transferring means moving institutions mid-degree, most commonly from a community college to a 4-year university to finish a bachelor's." },
+  { cat: "Grading", q: "What does taking a course 'pass/fail' let a student do?",
+    options: ["Take it without it affecting their GPA", "Skip the final exam", "Earn double credit", "Avoid prerequisites"],
+    answer: 0, why: "Pass/fail courses are graded only as pass or fail, so they don't move your GPA, handy for exploring a subject with less risk." },
+  { cat: "Grading", q: "What are 'Latin honors' such as cum laude?",
+    options: ["Graduation distinctions based on GPA", "Awards for studying Latin", "Scholarships for top students", "Names of student societies"],
+    answer: 0, why: "Cum laude, magna cum laude and summa cum laude (good, better, best) are graduation honors tied to GPA." },
+  { cat: "Registration", q: "What is the 'add/drop' period?",
+    options: ["A window at the start of term to add or drop courses without penalty", "A deadline to pay tuition", "A grading appeal process", "A break between semesters"],
+    answer: 0, why: "During add/drop, students can adjust their schedule freely. Dropping later means a 'W' (withdraw) on the transcript instead." },
+  { cat: "Registration", q: "What does an academic advisor do?",
+    options: ["Helps a student plan courses and often approves their registration", "Teaches the largest lectures", "Runs the admissions office", "Manages the dorms"],
+    answer: 0, why: "An advisor helps map out courses to meet graduation requirements and frequently must sign off before a student can register." },
+  { cat: "Calendar", q: "What are 'office hours'?",
+    options: ["Set times a professor is available for students to drop in", "The hours the library is open", "When tuition is paid", "Administrative opening times only"],
+    answer: 0, why: "Office hours are dedicated times when a professor or TA is available for questions, a normal part of US (and UK) academic life." },
+  { cat: "Calendar", q: "What is 'spring break'?",
+    options: ["A week-long holiday in the middle of spring semester", "The end-of-year exams", "The gap between degrees", "A type of elective"],
+    answer: 0, why: "Spring break is a one-week holiday mid spring semester, roughly aligned with the UK Easter break and culturally a big deal." },
+  { cat: "People", q: "What is a 'provost' at a university?",
+    options: ["The senior academic officer, usually second to the president", "A student union leader", "The head of admissions", "A type of scholarship"],
+    answer: 0, why: "The provost is the chief academic officer, roughly a UK pro-vice-chancellor (academic)." },
+  { cat: "People", q: "In a dorm, what is an 'RA'?",
+    options: ["A Resident Assistant, a student who supervises and supports residents", "A Regional Administrator", "A Returning Adult student", "A Research Award"],
+    answer: 0, why: "A Resident Assistant is a student employed to support those living on their floor. Note 'RA' can also mean Research Assistant in academic settings." },
+  { cat: "Campus life", q: "What is a 'meal plan'?",
+    options: ["A prepaid package of dining-hall meals, common for students living on campus", "A diet programme", "A budgeting class", "A scholarship for food costs"],
+    answer: 0, why: "A meal plan is prepaid campus dining, often required for students in the dorms. Uncommon at UK universities." },
+  { cat: "Academics", q: "Why do students often take fun electives like scuba or social dance?",
+    options: ["To break up hard courses and try things cheaply, often at no extra tuition within the flat-rate band", "Because they're required for every major", "Because they replace the final exams", "Because electives are worth more credits"],
+    answer: 0, why: "Electives are freely chosen courses. Within the flat-rate tuition band an extra one can cost little more than student fees, so students use them to explore cheaply and lighten a heavy load." },
+  { cat: "Calendar", q: "Why do many students take summer classes?",
+    options: ["To graduate faster, catch up, or retake a course", "Because summer is mandatory", "To avoid paying any fees", "Because fall and spring don't have classes"],
+    answer: 0, why: "Summer sessions are shorter and intensive. Students use them to go 'straight through' and graduate faster, to catch up, or to retake a failed or low-grade course." },
+  { cat: "Grading", q: "What can retaking a course do at many US schools?",
+    options: ["Replace the old grade with the new one in the GPA (policies vary)", "Erase the course from the transcript entirely", "Double the credits earned", "Guarantee an A"],
+    answer: 0, why: "Many schools use the newer, higher grade (or average the two). Unlike capped UK resits, US grade replacement can let the full higher grade count." },
+  { cat: "False friends", q: "When an American calls a university 'private', what does that mean?",
+    options: ["It's funded by tuition and endowments, not the state (says nothing about prestige)", "It's a secret or invite-only school", "It's an elite school by definition", "It's only for wealthy families"],
+    answer: 0, why: "At college level 'private' is just a funding model, the counterpart to a public/state school. Privates range from Harvard to small religious colleges, so it isn't a status label." },
+  { cat: "Financial", q: "What does a 'full-ride scholarship' cover?",
+    options: ["Essentially the whole cost: tuition, fees and usually room and board", "Only the application fee", "Just one year of tuition", "Transport to campus"],
+    answer: 0, why: "A full ride covers nearly everything. A 'full tuition' scholarship, by contrast, covers only tuition. Full rides are common in athletic recruiting." },
+  { cat: "Financial", q: "How do international students usually pay for a US public university?",
+    options: ["The higher out-of-state or international rate, and usually no access to US federal aid", "The cheap in-state rate", "Nothing, it's free for them", "The same as residents, with full federal aid"],
+    answer: 0, why: "International students generally pay the higher rate and can't use FAFSA-based federal aid, though some schools offer limited institutional scholarships." },
+];
+
+const QUIZ_COUNT = 10;
+let quiz = [];
+let qIdx = 0, qScore = 0, qAnswered = false;
+let currentMode = 'all';
+let currentCount = QUIZ_COUNT;
+let currentModeLabel = 'Full mixed quiz';
+const quizIntro = document.getElementById('quizIntro');
+const quizPlay = document.getElementById('quizPlay');
+const quizResult = document.getElementById('quizResult');
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function prepare(items) {
+  // shuffle the answer options for each question and recompute the correct index
+  return items.map(item => {
+    const correctText = item.options[item.answer];
+    const opts = shuffle(item.options.slice());
+    return { q: item.q, why: item.why, cat: item.cat, options: opts, answer: opts.indexOf(correctText) };
+  });
+}
+
+function buildQuiz(mode, count) {
+  if (mode && mode !== 'all') {
+    // single-topic quiz: every question in that category, shuffled
+    return prepare(shuffle(QUIZ_BANK.filter(q => q.cat === mode)));
+  }
+  // mixed quiz: round-robin across categories so the spread stays even at any length
+  const target = Math.min(count || QUIZ_COUNT, QUIZ_BANK.length);
+  const byCat = {};
+  QUIZ_BANK.forEach(q => { (byCat[q.cat] = byCat[q.cat] || []).push(q); });
+  Object.keys(byCat).forEach(c => shuffle(byCat[c]));
+  const cats = shuffle(Object.keys(byCat));
+  const picked = [];
+  let added = true;
+  while (picked.length < target && added) {
+    added = false;
+    for (const c of cats) {
+      if (picked.length >= target) break;
+      if (byCat[c].length) { picked.push(byCat[c].pop()); added = true; }
+    }
+  }
+  return prepare(shuffle(picked));
+}
+
+function startQuiz(mode, count) {
+  currentMode = mode || 'all';
+  currentCount = count || QUIZ_COUNT;
+  currentModeLabel = currentMode === 'all' ? `Full mixed quiz, ${currentCount} questions` : currentMode;
+  quiz = buildQuiz(currentMode, currentCount);
+  qIdx = 0; qScore = 0;
+  quizIntro.classList.add('hide');
+  quizResult.classList.add('hide');
+  quizPlay.classList.remove('hide');
+  showQuestion();
+}
+
+function renderModes() {
+  const byCat = {};
+  QUIZ_BANK.forEach(q => { (byCat[q.cat] = byCat[q.cat] || []).push(q); });
+  const wrap = document.getElementById('quizModes');
+  wrap.innerHTML = '';
+  Object.keys(byCat).sort().forEach(cat => {
+    const b = document.createElement('button');
+    b.className = 'qmode';
+    const n = byCat[cat].length;
+    b.innerHTML = `${cat}<span>${n} question${n === 1 ? '' : 's'}</span>`;
+    b.onclick = () => startQuiz(cat);
+    wrap.appendChild(b);
+  });
+}
+renderModes();
+
+function showQuestion() {
+  qAnswered = false;
+  const item = quiz[qIdx];
+  document.getElementById('qprogress').textContent = `Question ${qIdx + 1} of ${quiz.length}  •  ${item.cat}  •  Score ${qScore}`;
+  document.getElementById('qquestion').textContent = item.q;
+  const opts = document.getElementById('qoptions');
+  opts.innerHTML = '';
+  item.options.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'qopt';
+    b.textContent = opt;
+    b.onclick = () => pick(i, b);
+    opts.appendChild(b);
+  });
+  document.getElementById('qfeedback').classList.add('hide');
+  document.getElementById('qnext').classList.add('hide');
+}
+
+function pick(i, btn) {
+  if (qAnswered) return;
+  qAnswered = true;
+  const item = quiz[qIdx];
+  const buttons = document.querySelectorAll('.qopt');
+  buttons.forEach((b, idx) => {
+    b.classList.add('locked');
+    if (idx === item.answer) b.classList.add('correct');
+    if (idx === i && i !== item.answer) b.classList.add('wrong');
+  });
+  if (i === item.answer) qScore++;
+  const fb = document.getElementById('qfeedback');
+  fb.innerHTML = (i === item.answer ? '✅ <b>Correct.</b> ' : '❌ <b>Not quite.</b> ') + item.why;
+  fb.classList.remove('hide');
+  document.getElementById('qnext').classList.remove('hide');
+  document.getElementById('qprogress').textContent = `Question ${qIdx + 1} of ${quiz.length}  •  ${item.cat}  •  Score ${qScore}`;
+}
+
+document.getElementById('startQuiz10').onclick = () => startQuiz('all', 10);
+document.getElementById('startQuiz20').onclick = () => startQuiz('all', 20);
+document.getElementById('startQuiz40').onclick = () => startQuiz('all', 40);
+
+document.getElementById('qnext').onclick = () => {
+  qIdx++;
+  if (qIdx < quiz.length) { showQuestion(); }
+  else { finishQuiz(); }
+};
+
+function finishQuiz() {
+  quizPlay.classList.add('hide');
+  quizResult.classList.remove('hide');
+  const n = quiz.length;
+  const pct = n ? qScore / n : 0;
+  let tier, msg;
+  if (pct < 0.4) { tier = 'bless your heart'; msg = "Plenty of room to learn. Flip to the glossary and the other tabs, then come back and redeem yourself."; }
+  else if (pct < 0.7) { tier = 'getting there'; msg = "A solid working knowledge. A few false friends still caught you out. The glossary's 'false friends only' mode is your friend."; }
+  else if (pct < 0.9) { tier = 'sharp'; msg = "You could hold your own on a sales call. Just watch the edge cases."; }
+  else { tier = 'honorary American'; msg = "Outstanding. You understand the US system better than some who lived it. Go forth and brief the team."; }
+  document.getElementById('qscoreTitle').textContent = `${qScore}/${n}, ${tier}`;
+  document.getElementById('qscoreMsg').textContent = msg;
+  document.getElementById('qshare').textContent =
+    `🍺 American School Pub Quiz (${currentModeLabel})\nI scored ${qScore}/${n}.\nCan you beat me? (Genio internal tool)`;
+}
+
+document.getElementById('qcopy').onclick = () => {
+  const text = document.getElementById('qshare').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const b = document.getElementById('qcopy');
+    const old = b.textContent; b.textContent = 'Copied ✓';
+    setTimeout(() => b.textContent = old, 1600);
+  });
+};
+
+document.getElementById('qretry').onclick = () => startQuiz(currentMode, currentCount);
+document.getElementById('qmenu').onclick = () => {
+  quizResult.classList.add('hide');
+  quizPlay.classList.add('hide');
+  quizIntro.classList.remove('hide');
+};
+
+// ---- Try it yourself (Fall registration simulator) ----
+const TI_COURSES = [
+  // Gen eds, open to any year
+  { id:'engl101', code:'ENGL 101', title:'College Composition I', cr:3, cat:'Gen ed', bucket:'Writing', slots:['M09','W09','F09'] },
+  { id:'math120', code:'MATH 120', title:'College Algebra', cr:3, cat:'Gen ed', bucket:'Math', slots:['M10','W10','F10'] },
+  { id:'psyc101', code:'PSYC 101', title:'Introduction to Psychology', cr:3, cat:'Gen ed', bucket:'Social science', slots:['T0930','R0930'] },
+  { id:'hist105', code:'HIST 105', title:'US History to 1877', cr:3, cat:'Gen ed', bucket:'Humanities', slots:['T11','R11'] },
+  { id:'arth100', code:'ARTH 100', title:'Art History Survey', cr:3, cat:'Gen ed', bucket:'Arts', slots:['M11','W11','F11'] },
+  { id:'comm110', code:'COMM 110', title:'Public Speaking', cr:3, cat:'Gen ed', bucket:'Communication', slots:['T14','R14'] },
+  // Intro major (freshman level)
+  { id:'biol101', code:'BIOL 101', title:'Introductory Biology I (with lab)', cr:4, cat:'Major (intro)', slots:['M08','W08','F08'] },
+  { id:'chem101', code:'CHEM 101', title:'General Chemistry I (with lab)', cr:4, cat:'Major (intro)', slots:['T08','R08'] },
+  // Advanced major (300-level), prereqs assumed met by juniors
+  { id:'biol301', code:'BIOL 301', title:'Genetics', cr:3, cat:'Major (advanced)', adv:true, prereq:'BIOL 201', slots:['M09','W09','F09'] },
+  { id:'biol305', code:'BIOL 305', title:'Microbiology (with lab)', cr:4, cat:'Major (advanced)', adv:true, prereq:'BIOL 201', slots:['M10','W10','F10'] },
+  { id:'biol320', code:'BIOL 320', title:'Ecology', cr:3, cat:'Major (advanced)', adv:true, prereq:'BIOL 201', slots:['T0930','R0930'] },
+  { id:'biol350', code:'BIOL 350', title:'Cell Biology', cr:3, cat:'Major (advanced)', adv:true, prereq:'BIOL 201', slots:['T11','R11'] },
+  { id:'chem201', code:'CHEM 201', title:'Organic Chemistry I (with lab)', cr:4, cat:'Major (advanced)', adv:true, prereq:'CHEM 101', slots:['T08','R08'] },
+  // Fun electives
+  { id:'phed130', code:'PHED 130', title:'Scuba Diving', cr:1, cat:'Elective', slots:['T16'] },
+  { id:'danc115', code:'DANC 115', title:'Social Dance', cr:1, cat:'Elective', slots:['R16'] },
+  { id:'musc100', code:'MUSC 100', title:'Introduction to Music', cr:3, cat:'Elective', slots:['M13','W13','F13'] },
+];
+// What a Biology junior has already completed by the end of sophomore year (~60 of 120 credits)
+const TI_TOTAL = 120;
+const TI_COMPLETED = [
+  { code:'ENGL 101', title:'College Composition I', cr:3, group:'Gen ed' },
+  { code:'ENGL 102', title:'College Composition II', cr:3, group:'Gen ed' },
+  { code:'MATH 120', title:'College Algebra', cr:3, group:'Gen ed' },
+  { code:'HIST 105', title:'US History to 1877', cr:3, group:'Gen ed' },
+  { code:'PSYC 101', title:'Introduction to Psychology', cr:3, group:'Gen ed' },
+  { code:'ARTH 100', title:'Art History Survey', cr:3, group:'Gen ed' },
+  { code:'COMM 110', title:'Public Speaking', cr:3, group:'Gen ed' },
+  { code:'STAT 200', title:'Statistics', cr:3, group:'Major core' },
+  { code:'BIOL 101', title:'Introductory Biology I', cr:4, group:'Major core' },
+  { code:'BIOL 201', title:'Introductory Biology II', cr:4, group:'Major core' },
+  { code:'CHEM 101', title:'General Chemistry I', cr:4, group:'Major core' },
+  { code:'CHEM 201', title:'Organic Chemistry I', cr:4, group:'Major core' },
+  { code:'PHYS 101', title:'General Physics I', cr:4, group:'Major core' },
+  { code:'PHED 110', title:'Tennis', cr:1, group:'Elective' },
+  { code:'Free electives', title:'Assorted free electives', cr:15, group:'Elective' },
+];
+const TI_COMPLETED_CODES = new Set(TI_COMPLETED.map(c => c.code));
+// Still required for the degree (beyond what's done). 'fall' = offered this Fall (in the catalog).
+const TI_DEGREE_REMAINING = [
+  { code:'BIOL 301', title:'Genetics', cr:3, group:'Major (advanced)', fall:true },
+  { code:'BIOL 305', title:'Microbiology', cr:4, group:'Major (advanced)', fall:true },
+  { code:'BIOL 320', title:'Ecology', cr:3, group:'Major (advanced)', fall:true },
+  { code:'BIOL 350', title:'Cell Biology', cr:3, group:'Major (advanced)', fall:true },
+  { code:'CHEM 301', title:'Biochemistry', cr:3, group:'Major (advanced)', fall:false },
+  { code:'PHYS 102', title:'General Physics II', cr:4, group:'Major (advanced)', fall:false },
+  { code:'BIOL 401', title:'Senior Capstone', cr:3, group:'Major (advanced)', fall:false },
+  { code:'Humanities elective', title:'One more humanities gen ed', cr:3, group:'Gen ed', fall:false },
+];
+// The typical four-year path for the B.S. Biology, shown to freshmen as a roadmap
+const TI_ROADMAP = [
+  { year:'Year 1 · Freshman', items:'Writing and math gen eds, intro science for your major (BIOL 101, CHEM 101), plus a couple of breadth gen eds.', now:true },
+  { year:'Year 2 · Sophomore', items:'More gen eds, BIOL 201 and CHEM 201, and you formally declare your major.' },
+  { year:'Year 3 · Junior', items:'Go deep in the major: 300-level courses like Genetics, Microbiology, Ecology and Cell Biology.' },
+  { year:'Year 4 · Senior', items:'Finish up: Biochemistry, Physics II, a Senior Capstone, and your remaining free electives.' },
+];
+const SLOT_LABEL = { M:'Mon', T:'Tue', W:'Wed', R:'Thu', F:'Fri' };
+function slotText(slots) {
+  // group times, list days
+  const byTime = {};
+  slots.forEach(s => { const d = s[0], t = s.slice(1); (byTime[t] = byTime[t] || []).push(SLOT_LABEL[d]); });
+  return Object.keys(byTime).map(t => {
+    const hr = t.length === 4 ? t.slice(0,2)+':'+t.slice(2) : t+':00';
+    return byTime[t].join('/') + ' ' + hr;
+  }).join(', ');
+}
+let tiYear = null;
+let tiSel = new Set();
+const tiBoard = document.getElementById('tiBoard');
+
+function tiState(c) {
+  if (tiYear === 'junior' && TI_COMPLETED_CODES.has(c.code)) return 'completed';
+  if (tiYear === 'freshman' && c.adv) return 'prereq';
+  return 'open';
+}
+
+function tiRenderCatalog() {
+  const wrap = document.getElementById('tiCatalog');
+  wrap.innerHTML = '';
+  const order = ['Gen ed','Major (intro)','Major (advanced)','Elective'];
+  order.forEach(cat => {
+    const group = TI_COURSES.filter(c => c.cat === cat);
+    if (!group.length) return;
+    const h = document.createElement('div');
+    h.className = 'tigroup';
+    h.textContent = cat;
+    wrap.appendChild(h);
+    group.forEach(c => {
+      const state = tiState(c);
+      const open = state === 'open';
+      const el = document.createElement('div');
+      el.className = 'ci' + (tiSel.has(c.id) ? ' added' : '') + (open ? '' : ' locked');
+      let meta, badge;
+      if (state === 'completed') { meta = `${c.cr} cr  •  already on your transcript`; badge = 'Completed ✓'; }
+      else if (state === 'prereq') { meta = `Locked: prereq ${c.prereq} not yet completed (you'll take this later)`; badge = '🔒'; }
+      else { meta = `${c.cr} cr  •  ${slotText(c.slots)}` + (c.prereq ? `  •  needs ${c.prereq}` : ''); badge = tiSel.has(c.id) ? 'Remove ✓' : '+ Add'; }
+      el.innerHTML = `<div class="cmain"><span class="ccode">${c.code}</span> ${c.title}<div class="cmeta">${meta}</div></div>`
+        + `<div class="cadd">${badge}</div>`;
+      if (open) el.onclick = () => { tiSel.has(c.id) ? tiSel.delete(c.id) : tiSel.add(c.id); tiRenderCatalog(); tiRenderTray(); };
+      wrap.appendChild(el);
+    });
+  });
+}
+
+function tiProgressBar(earnedPct, fallPct, toGo) {
+  return `<div class="tiprog"><div class="seg-earned" style="width:${earnedPct}%"></div><div class="seg-fall" style="width:${fallPct}%"></div></div>`
+    + `<div class="tilegend"><span><span class="dot" style="background:var(--good)"></span>Earned</span><span><span class="dot" style="background:var(--accent)"></span>This Fall</span><span>${toGo} credits to go after Fall</span></div>`;
+}
+
+function tiRenderAudit() {
+  const box = document.getElementById('tiAudit');
+  if (!tiYear) { box.classList.add('hide'); box.innerHTML = ''; return; }
+  box.classList.remove('hide');
+  const adding = TI_COURSES.filter(c => tiSel.has(c.id)).reduce((a,c) => a + c.cr, 0);
+
+  if (tiYear === 'freshman') {
+    const projected = adding;
+    const fallPct = Math.round(adding / TI_TOTAL * 100);
+    const roadmap = TI_ROADMAP.map(r =>
+      `<div class="tireq"><span class="${r.now ? 'tinow' : ''}">${r.year}${r.now ? ' (you\'re here, building it now)' : ''}<div class="rc" style="white-space:normal; margin-top:2px;">${r.items}</div></span></div>`
+    ).join('');
+    box.innerHTML =
+      `<h3 style="margin-top:0;">Your 4-year roadmap: B.S. Biology</h3>`
+      + `<p class="muted" style="margin-top:0;">You're just starting. A bachelor's is about 120 credits over four years, and you'll register every term to chip away at them. This Fall is step one. (Simplified for illustration.)</p>`
+      + `<div style="font-weight:700;">0 of ${TI_TOTAL} credits earned`
+        + (adding ? `  <span style="color:var(--accent)">→ ${projected} after this Fall</span>` : '') + `</div>`
+      + tiProgressBar(0, fallPct, TI_TOTAL - projected)
+      + `<div class="tigroup">The typical path</div>${roadmap}`;
+    return;
+  }
+
+  const earned = TI_COMPLETED.reduce((a,c) => a + c.cr, 0);
+  const projected = earned + adding;
+  const earnedPct = Math.round(earned / TI_TOTAL * 100);
+  const fallPct = Math.round(adding / TI_TOTAL * 100);
+
+  // group completed
+  const grp = {};
+  TI_COMPLETED.forEach(c => { (grp[c.group] = grp[c.group] || []).push(c); });
+  const doneHtml = Object.keys(grp).map(g =>
+    `<div class="tireq"><span class="tidone">${g}</span><span class="rc">${grp[g].reduce((a,c)=>a+c.cr,0)} cr</span></div>`
+    + grp[g].map(c => `<div class="tireq" style="padding-left:10px"><span>${c.code} ${c.title}</span><span class="rc">${c.cr}</span></div>`).join('')
+  ).join('');
+
+  // still to take
+  const selectedCodes = new Set(TI_COURSES.filter(c => tiSel.has(c.id)).map(c => c.code));
+  const reqCr = TI_DEGREE_REMAINING.reduce((a,c)=>a+c.cr,0);
+  const electivesLeft = TI_TOTAL - earned - reqCr;
+  const todoHtml = TI_DEGREE_REMAINING.map(c => {
+    const now = c.fall && selectedCodes.has(c.code);
+    const tag = now ? '<span class="tinow"> registering this Fall</span>' : (c.fall ? '<span class="rc"> offered this Fall</span>' : '<span class="rc"> senior year</span>');
+    return `<div class="tireq"><span class="${now ? 'tinow' : 'titodo'}">${c.code} ${c.title}${tag}</span><span class="rc">${c.cr}</span></div>`;
+  }).join('') + `<div class="tireq"><span class="titodo">Free electives (to reach 120)</span><span class="rc">~${electivesLeft}</span></div>`;
+
+  box.innerHTML =
+    `<h3 style="margin-top:0;">Degree audit: B.S. Biology</h3>`
+    + `<p class="muted" style="margin-top:0;">You're a junior. Here's where you stand toward the 120 credits you need, and what this Fall's picks would knock out. (Simplified for illustration.)</p>`
+    + `<div style="font-weight:700;">${earned} of ${TI_TOTAL} credits earned`
+      + (adding ? `  <span style="color:var(--accent)">→ ${projected} after this Fall</span>` : '') + `</div>`
+    + tiProgressBar(earnedPct, fallPct, TI_TOTAL - projected)
+    + `<div class="tcols"><div><div class="tigroup">Completed (${earned} cr)</div>${doneHtml}</div>`
+    + `<div><div class="tigroup">Still to take</div>${todoHtml}</div></div>`;
+}
+
+function tiConflicts() {
+  const used = {}; const clashes = [];
+  TI_COURSES.filter(c => tiSel.has(c.id)).forEach(c => {
+    c.slots.forEach(s => {
+      if (used[s]) clashes.push(`${used[s]} and ${c.code} clash (${s[0] && SLOT_LABEL[s[0]]})`);
+      else used[s] = c.code;
+    });
+  });
+  return [...new Set(clashes)];
+}
+
+function tiRenderTray() {
+  const tray = document.getElementById('tiTray');
+  const sel = TI_COURSES.filter(c => tiSel.has(c.id));
+  tray.innerHTML = '';
+  if (!sel.length) { tray.innerHTML = '<div class="none">No courses yet. Add some from the catalog.</div>'; }
+  sel.forEach(c => {
+    const row = document.createElement('div');
+    row.className = 'trow';
+    row.innerHTML = `<span>${c.code} <span style="color:var(--muted)">(${c.cr} cr)</span></span><span class="x" data-id="${c.id}">remove</span>`;
+    row.querySelector('.x').onclick = () => { tiSel.delete(c.id); tiRenderCatalog(); tiRenderTray(); };
+    tray.appendChild(row);
+  });
+  const cr = sel.reduce((a,c) => a + c.cr, 0);
+  const stat = document.getElementById('tiStat');
+  let band = '', cls = '';
+  if (cr === 0) { band = 'Add courses to reach 12 to 18 credits.'; }
+  else if (cr < 12) { band = 'Part-time: below the 12-credit full-time line.'; cls = 'warn'; }
+  else if (cr <= 18) { band = 'Full-time band. Extra courses here cost no extra tuition.'; cls = 'good'; }
+  else { band = 'Overload: above 18 credits, usually an extra fee and approval.'; cls = 'warn'; }
+  const clashes = tiConflicts();
+  stat.className = 'tistat' + (cls ? ' ' + cls : '') + (clashes.length ? ' warn' : '');
+  stat.innerHTML = `${cr} credits <span class="band">&nbsp;&middot;&nbsp; ${band}</span>` + (clashes.length ? `<div class="band" style="color:var(--warn); margin-top:4px;">⚠️ Time clash: ${clashes.join('; ')}</div>` : '');
+  document.getElementById('tiFeedback').classList.add('hide');
+  tiRenderAudit();
+}
+
+function tiStart(year) {
+  tiYear = year; tiSel = new Set();
+  document.getElementById('tiGoal').innerHTML = year === 'freshman'
+    ? "<b>Freshman goal:</b> a balanced first semester. The roadmap below shows your whole four-year path. Start your major with the intro science, get your writing requirement in, and round out with gen eds. The 300-level major courses are locked until you've cleared their prerequisites."
+    : "<b>Junior goal:</b> go deep in the major. Your degree audit below shows what you've already completed and what's left. Your gen eds and intro courses are done, so load up on the 300-level Biology courses you still need, and you can still fit a fun elective.";
+  document.getElementById('tiCatTitle').textContent = `Fall course catalog ${year === 'freshman' ? '(Freshman year)' : '(Junior year)'}`;
+  tiBoard.classList.remove('hide');
+  tiRenderCatalog();
+  tiRenderTray();
+}
+
+document.getElementById('tiFreshman').onclick = () => tiStart('freshman');
+document.getElementById('tiJunior').onclick = () => tiStart('junior');
+document.getElementById('tiReset').onclick = () => { tiSel = new Set(); tiRenderCatalog(); tiRenderTray(); };
+
+document.getElementById('tiCheck').onclick = () => {
+  const sel = TI_COURSES.filter(c => tiSel.has(c.id));
+  const cr = sel.reduce((a,c) => a + c.cr, 0);
+  const clashes = tiConflicts();
+  const genEds = sel.filter(c => c.cat === 'Gen ed').length;
+  const adv = sel.filter(c => c.cat === 'Major (advanced)').length;
+  const hasIntroBio = tiSel.has('biol101');
+  const hasWriting = tiSel.has('engl101');
+  const hasElective = sel.some(c => c.cat === 'Elective');
+  const items = [];
+  const tick = (ok, text) => items.push(`<li>${ok ? '✅' : '⚠️'} ${text}</li>`);
+
+  tick(cr >= 12 && cr <= 18, cr >= 12 && cr <= 18 ? `Full-time load (${cr} credits, in the 12 to 18 band).` : (cr < 12 ? `Only ${cr} credits, that's part-time. Add more to reach 12.` : `${cr} credits is an overload (over 18), expect an extra fee.`));
+  tick(clashes.length === 0, clashes.length === 0 ? 'No time clashes.' : `Time clash to fix: ${clashes.join('; ')}.`);
+
+  if (tiYear === 'freshman') {
+    tick(hasIntroBio, hasIntroBio ? 'You started your major with BIOL 101.' : 'Most bio majors take BIOL 101 in their first semester, you skipped it.');
+    tick(hasWriting, hasWriting ? 'Writing requirement (ENGL 101) covered.' : 'You did not take the writing gen ed (ENGL 101), almost everyone does this early.');
+    tick(genEds >= 2, genEds >= 2 ? `Good breadth: ${genEds} gen ed courses.` : 'Freshman year is mostly gen eds, try to include at least two.');
+    if (hasElective) items.push('<li>🎉 Nice, you grabbed a fun elective to break things up.</li>');
+  } else {
+    tick(adv >= 2, adv >= 2 ? `Strong major focus: ${adv} advanced (300-level) courses.` : 'Juniors go deep in the major, aim for at least two 300-level courses.');
+    tick(genEds + (hasElective ? 1 : 0) >= 1, (genEds || hasElective) ? 'Balanced it out with a gen ed or elective.' : 'You could slot in a leftover gen ed or a fun elective alongside the major load.');
+    if (sel.some(c => c.cat === 'Major (intro)')) items.push('<li>ℹ️ You added an intro course (BIOL/CHEM 101), a junior would usually have these done already.</li>');
+  }
+
+  let verdict;
+  const core = (cr >= 12 && cr <= 18) && clashes.length === 0 && (tiYear === 'freshman' ? (hasIntroBio && hasWriting && genEds >= 2) : adv >= 2);
+  if (core) verdict = '🎓 Registered. That is a realistic, well-balanced Fall schedule.';
+  else if (cr >= 12 && clashes.length === 0) verdict = '👍 Close. It would work, but tweak the mix above to match how a real student would plan it.';
+  else verdict = '🔧 Not quite a valid schedule yet, see the notes below.';
+
+  const fb = document.getElementById('tiFeedback');
+  fb.innerHTML = `<div class="tverdict">${verdict}</div><ul>${items.join('')}</ul>`;
+  fb.classList.remove('hide');
+};
+
+// ---- Tab switching ----
+document.querySelectorAll('.tab').forEach(t => {
+  t.onclick = () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    const v = t.dataset.view;
+    ['glossary','journey','structure','paying','tryit','quiz'].forEach(name => {
+      document.getElementById('view-' + name).classList.toggle('hide', name !== v);
+    });
+  };
+});
+
+render();
+</script>
+</body>
+</html>
