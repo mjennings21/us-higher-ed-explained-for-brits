@@ -22,6 +22,7 @@
     --shadow: 0 6px 24px rgba(0,0,0,0.35);
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -212,7 +213,7 @@
   <section id="view-journey" class="hide">
     <div class="panel-block">
       <h2>The journey map</h2>
-      <p class="muted">The whole path at a glance, from applying in high school to graduation. The detailed timeline is below.</p>
+      <p class="muted">The most common route at a glance: the four-year bachelor's path from applying in high school to graduation. It isn't the only path, see <a href="#alt-routes"><b>"Not everyone takes the 4-year route"</b></a> lower down. The detailed timeline is below.</p>
       <div style="overflow-x:auto; margin-top:8px;">
         <svg viewBox="0 0 1000 470" style="width:100%; min-width:700px; height:auto; display:block;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A winding map of the US student journey from applying in high school through to graduation">
           <path d="M70,120 C145,120 145,300 220,300 C300,300 300,120 380,120 C450,120 450,300 520,300 C590,300 590,120 660,120 C730,120 730,300 800,300 C865,300 865,120 930,120"
@@ -273,6 +274,18 @@
       <h3>The basic entry requirement</h3>
       <p class="muted">To enroll at a college or university you normally need a <b>high school diploma</b> or a <b>GED</b> (the equivalent for those who didn't finish high school). Beyond that, requirements range from <b>open admission</b> (a pulse and a diploma will do, common at community colleges and many state schools) up to the highly selective privates that reject most applicants and may require SAT or ACT scores.</p>
     </div>
+
+    <div class="panel-block" id="alt-routes" style="scroll-margin-top:16px;">
+      <h2>Not everyone takes the 4-year route</h2>
+      <p class="muted">The map above shows the common four-year bachelor's path, but it's only one option. Plenty of students take a different route after high school:</p>
+      <div class="ladder">
+        <div class="rung"><div class="lvl">Technical / vocational college</div><div class="desc">Hands-on training for a specific trade or career (welding, HVAC, IT, allied health), earning a certificate or associate degree and heading straight into work. Roughly the UK further-education / BTEC space.</div></div>
+        <div class="rung"><div class="lvl">Community college first</div><div class="desc">Two years at a cheaper community college, then either into the workforce with an associate degree or transferring to a 4-year university to finish a bachelor's.</div></div>
+        <div class="rung"><div class="lvl">Fully online programs</div><div class="desc">A whole degree or certificate completed online (e.g. ASU Online), popular with working adults and distance learners.</div></div>
+        <div class="rung"><div class="lvl">Work, apprenticeships or the military</div><div class="desc">Some go straight to a job, an apprenticeship, or military service (which can later fund college through the GI Bill).</div></div>
+      </div>
+      <p class="muted" style="margin-top:12px;">So when picturing a US student, don't assume the four-year campus path. The route depends on goals, cost and circumstances.</p>
+    </div>
   </section>
 
   <!-- STRUCTURE VIEW -->
@@ -295,7 +308,8 @@
         <div class="rung"><div class="lvl">Online <span>remote</span></div><div class="desc">Delivered over the internet. Can be synchronous (live at a set time) or asynchronous (self-paced, watch recordings on your own schedule).</div></div>
         <div class="rung"><div class="lvl">Hybrid <span>a mix</span></div><div class="desc">Part in person, part online, e.g. a weekly in-person seminar plus online lectures.</div></div>
       </div>
-      <p class="muted" style="margin-top:12px;"><b>Common misconception:</b> people assume a student is either "an online student" or "an in-person student". Most are neither. A single student routinely mixes all three formats in one term, choosing each course's format to fit their schedule.</p>
+      <p class="muted" style="margin-top:12px;"><b>Common misconception:</b> people assume a student is either "an online student" or "an in-person student". For most campus students it's neither, a single student routinely mixes all three formats in one term, choosing each course's format to fit their schedule.</p>
+      <p class="muted" style="margin-top:12px;"><b>But fully online does exist too:</b> separately from mixing formats course by course, many universities offer entire <b>degrees, certificates and programs online</b>, completed with no campus attendance at all. Schools like <a href="https://www.asu.edu/" target="_blank" rel="noopener">Arizona State University</a> run both campus and fully online versions of programs, and others such as <a href="https://www.uvu.edu/online/" target="_blank" rel="noopener">Utah Valley University</a> have dedicated online offerings. So a student might mix formats on campus, or do the whole thing online, both are normal.</p>
     </div>
     <div class="panel-block">
       <h2>See a real course catalog</h2>
@@ -333,10 +347,11 @@
       <p class="muted" style="margin-top:12px;">A student picks specific courses to "satisfy" each bucket, so two biology majors can fulfil the same humanities requirement with totally different classes. This is the heart of the US liberal arts model: depth in your major, breadth across everything else.</p>
     </div>
     <div class="panel-block">
-      <h2>Two kinds of institution Brits often merge</h2>
+      <h2>Kinds of institution Brits often merge</h2>
       <div class="ladder">
         <div class="rung"><div class="lvl">4-year college / university <span>bachelor's degree</span></div><div class="desc">The "default" route. Public (state-funded, e.g. UCLA) or private (e.g. Stanford). "College" and "university" are used interchangeably by students.</div></div>
         <div class="rung"><div class="lvl">Community college <span>2-year, associate degree</span></div><div class="desc">Local, low-cost, open access. Many students do two years here then "transfer" into a 4-year school to finish a bachelor's. No UK sixth-form equivalent, it is post-18 higher ed.</div></div>
+        <div class="rung"><div class="lvl">Technical / vocational college <span>certificate or associate, career-focused</span></div><div class="desc">Trade and career training (welding, HVAC, IT, allied health, cosmetology). Shorter, hands-on, aimed straight at a job. Roughly the UK further-education / BTEC space.</div></div>
       </div>
       <h3>The common money-saving pathway</h3>
       <p class="muted">A huge number of US students deliberately start at a community college to save money. Tuition there is far cheaper per credit, so they take their general-education courses (the broad first-two-year requirements) at the community college, then <b>transfer</b> into a 4-year university to complete their major. The bachelor's degree is awarded by the university, and the diploma looks the same. This route doesn't exist in the UK and surprises many British colleagues.</p>
@@ -878,9 +893,13 @@ const DATA = [
 
   // ---- FORMATS & PATHWAYS ----
   { term: "In-person / online / hybrid courses", cat: "Formats & pathways", ff: false,
-    us: "Courses come in three delivery modes: in-person (on campus), online (remote), and hybrid (a mix of both). Crucially, a single student usually mixes modes within the same term, e.g. two in-person classes, one online and one hybrid, whatever fits their schedule.",
-    uk: "Common misunderstanding: people assume a student is 'an online student' OR 'an in-person student'. Most aren't. The format is chosen course by course, not for the whole degree.",
+    us: "Individual courses come in three delivery modes: in-person (on campus), online (remote), and hybrid (a mix of both). A typical on-campus student mixes modes within the same term, e.g. two in-person classes, one online and one hybrid, whatever fits their schedule.",
+    uk: "Common half-truth: people assume a student is either 'an online student' OR 'an in-person student'. For most campus students it's neither, format is chosen course by course. But separately, some schools do offer entire degrees online (see 'Online degrees and programs'), so both pictures are real.",
     ex: "\"I took stats online so I could keep my morning lab in person.\"" },
+  { term: "Online degrees and programs", cat: "Formats & pathways", ff: false,
+    us: "Beyond individual online courses, many universities offer whole degrees, certificates and programs that can be completed fully online, with no campus attendance required. Big examples include Arizona State University (ASU Online) and Utah Valley University. These are real, accredited credentials, popular with working adults and distance learners.",
+    uk: "Similar to UK distance learning (e.g. the Open University). The point for US schools: one institution often runs both a traditional campus version and a fully online version of the same program.",
+    ex: "\"She earned her degree through ASU Online while working full-time.\"" },
   { term: "Synchronous vs asynchronous", cat: "Formats & pathways", ff: false,
     us: "For online courses: synchronous means live at a set time (you log in for the lecture); asynchronous means self-paced, with recorded material and deadlines but no fixed meeting time.",
     uk: "Same terms apply, but worth flagging because 'online' alone doesn't tell you whether it's live.",
@@ -893,6 +912,10 @@ const DATA = [
     us: "A deliberate money-saving route: do your first two years (mostly general-education courses) at a cheap local community college, then transfer to a 4-year university to complete the major and earn the bachelor's. The degree is awarded by the university, not the community college.",
     uk: "There is no UK equivalent. It exists because US tuition is high and community college is far cheaper per credit.",
     ex: "\"He knocked out his gen eds at community college, then transferred to finish his degree.\"" },
+  { term: "Technical / vocational college", cat: "Formats & pathways", ff: false,
+    us: "A school focused on hands-on training for a specific career or trade, welding, HVAC, automotive, cosmetology, IT, culinary, allied health and the like. Also called a trade school, vocational school, technical institute or career college. They award certificates, diplomas or associate degrees (not bachelor's), and programs are shorter and job-focused. Can be public (often part of 'community and technical college' systems) or private (sometimes for-profit).",
+    uk: "Closest UK reference points are further-education colleges and BTEC or vocational routes. The key point: a real, common alternative to the 4-year university path, aimed straight at a job.",
+    ex: "\"He did an 18-month HVAC program at a technical college and went straight into work.\"" },
   { term: "State school / state university", cat: "Formats & pathways", ff: false,
     us: "A public university funded by a particular US state (e.g. University of Florida, Ohio State). They charge in-state residents much less, are usually large, and many have fairly open or modest admission requirements, so a solid high-school record often gets you in. They sit alongside more selective private universities.",
     uk: "Don't read 'state school' as lower quality. Many state flagships are excellent and huge; the term just means publicly funded, and entry is often more accessible than at selective privates.",
@@ -902,9 +925,13 @@ const DATA = [
     uk: "Closest UK idea is a course with low or unconditional entry requirements, but here it can apply to whole institutions.",
     ex: "\"It's open admission, so getting in isn't the hard part, finishing is.\"" },
   { term: "Dual enrollment", cat: "Formats & pathways", ff: false,
-    us: "When a high-school student takes actual college courses (for real college credit) while still in high school, getting a head start on their degree.",
+    us: "When a high-school student takes actual college courses (for real college credit) while still in high school, getting a head start on their degree. Often used interchangeably with 'concurrent enrollment', though many use 'dual enrollment' for courses taken at the college or online (see 'Concurrent enrollment' for the distinction).",
     uk: "No UK equivalent; the closest idea is studying ahead, but here the student earns genuine university credit early.",
     ex: "\"She did dual enrollment and started university with a semester's worth of credits.\"" },
+  { term: "Concurrent enrollment", cat: "Formats & pathways", ff: false,
+    us: "A form of dual enrollment where the college course is taught at the student's own high school, often by an approved high-school teacher, rather than on the college campus. The common distinction: 'concurrent enrollment' = college credit earned in the high school classroom; 'dual enrollment' = the student goes to the college (or takes it online). Be warned: some states swap these two labels, so confirm what a given school means.",
+    uk: "No UK equivalent. The takeaway: both let a high-schooler earn real college credit early; the difference is mainly where the class is taught.",
+    ex: "\"Her high school offered concurrent enrollment, so she earned college credit without leaving campus.\"" },
   { term: "AP (Advanced Placement)", cat: "Formats & pathways", ff: false,
     us: "College-level courses and exams taken in high school. A high enough exam score can earn college credit or let a student skip introductory courses, another way to get a head start.",
     uk: "Roughly comparable in spirit to taking A-levels that earn university credit, which the UK doesn't really do.",
@@ -1081,6 +1108,9 @@ const QUIZ_BANK = [
   { cat: "Formats & pathways", q: "What does 'dual enrollment' let a high-school student do?",
     options: ["Earn real college credit while still in high school", "Attend two high schools at once", "Take two majors", "Defer university for two years"],
     answer: 0, why: "Dual enrollment (and AP) let high schoolers earn genuine college credit early, arriving at university with a head start." },
+  { cat: "Formats & pathways", q: "What is a 'technical' or 'vocational' college?",
+    options: ["A school for hands-on career training (trades, IT, allied health), awarding certificates or associate degrees", "A selective research university", "A type of high school", "An online-only Ivy League program"],
+    answer: 0, why: "Technical/vocational (trade) colleges give shorter, job-focused training and award certificates or associate degrees, not bachelor's. Roughly the UK further-education / BTEC space, and a common alternative to the 4-year route." },
 
   // Grading
   { cat: "Grading", q: "What is a GPA?",
